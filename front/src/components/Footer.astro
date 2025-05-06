@@ -1,0 +1,60 @@
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <h2><a href="/mentions-legales">Mentions légales</a></h2>
+            <h2><a href="/contact">Contact</a></h2>
+        </div>
+    </div>
+</footer>
+
+<style>
+    footer {
+        background-color: #EAE83D;  /* Couleur jaune pâle comme dans l'image */
+        padding: 2.5rem 0;
+        width: 100%;
+        position: relative;
+        bottom: 0;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: flex-end;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    h2 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: normal;
+        line-height: 1;
+    }
+
+    a {
+        color: #000000;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: #666666;
+    }
+
+    @media (max-width: 768px) {
+        .footer-links {
+            justify-content: center;
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    }
+</style>
