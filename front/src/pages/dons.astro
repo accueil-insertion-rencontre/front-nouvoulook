@@ -7,12 +7,129 @@ import HeroBanner from '../components/HeroBanner.astro';
 <Layout title="Faire un don">
   <Header />
   <HeroBanner />
-  
+  <main class="don-main">
+    <section class="don-section don-bg-yellow don-rounded don-shadow">
+      <h1 class="don-title don-color-orange">BONJOUR,</h1>
+      <p class="don-info don-bg-green">
+        À partir de janvier 2024, les dépôts seront recueillis <b>SEULEMENT du mardi au vendredi matin (9 à 12h), ainsi que le samedi après-midi (14 à 18h)</b>
+      </p>
+      <h2 class="don-collecte don-color-pink">NOUS COLLECTONS</h2>
+      <p class="don-desc">Ces objets <b>UNIQUEMENT s'ils sont complets et en bon état</b> :</p>
+      <ul class="don-list">
+        <li>Vêtements et chaussures (homme, femme, enfant et bébé)</li>
+        <li>Linge de maison (lit, bain, table...)</li>
+        <li>Accessoires (chapeaux, sacs, bijoux...)</li>
+        <li>Petit électroménager</li>
+        <li>Jeux, jouets, livres d'enfants</li>
+        <li>Petit mobilier</li>
+        <li>Objets de décoration</li>
+      </ul>
+      <div class="don-illu">🧺</div>
+      <p class="don-resume">En résumé : <b>tout ce qui est en bon état</b>, permettant une seconde vie que vous rachèteriez !</p>
+    </section>
+
+    <section class="don-section don-bg-grey don-rounded don-shadow">
+      <h2 class="don-title don-color-orange">NOUS <span class="don-color-pink">NE COLLECTONS PAS</span> :</h2>
+      <ul class="don-list-no">
+        <li><b>Les vêtements</b> tachés, abîmés, troués, boutons manquants, fermetures abîmées...</li>
+        <li><b>Le gros électroménager</b></li>
+        <li><b>Le matériel informatique, HIFI, TV, téléphones, vidéos</b></li>
+        <li><b>Les équipements sportifs</b> (armures, vélos, appareils lourds...)</li>
+        <li><b>Les sièges auto</b> (réglementation, sécurité, usage, cozy...)</li>
+        <li><b>Les produits usagés</b></li>
+      </ul>
+      <div class="don-illu">😕</div>
+    </section>
+  </main>
 </Layout>
 
-  <style>
-	/* Font appliquée sur l'ensemble de la page */
-	body {
-		font-family: sans-serif;
-	}
-  </style>
+<style>
+.don-main {
+  background: #f8f9fa;
+  min-height: 100vh;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+.don-section {
+  width: 95%;
+  max-width: 420px;
+  padding: 2rem 1.5rem;
+  margin: 0 auto;
+  position: relative;
+}
+.don-bg-yellow {
+  background: #fff3b0;
+}
+.don-bg-grey {
+  background: #f7f7f7;
+}
+.don-rounded {
+  border-radius: 1.5rem;
+}
+.don-shadow {
+  box-shadow: 0 4px 16px 0 #0001;
+}
+.don-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+.don-color-orange {
+  color: #e09c2b;
+}
+.don-color-pink {
+  color: #e23e57;
+}
+.don-info {
+  background: #b6e388;
+  color: #1a3c1a;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  display: inline-block;
+}
+.don-collecte {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1rem 0 0.5rem 0;
+}
+.don-desc {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.don-list, .don-list-no {
+  margin: 0 0 1rem 0;
+  padding-left: 1.2rem;
+}
+.don-list li {
+  margin-bottom: 0.3rem;
+  color: #1a3c1a;
+}
+.don-list-no li {
+  margin-bottom: 0.3rem;
+  color: #e23e57;
+}
+.don-resume {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #1a3c1a;
+}
+.don-illu {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+@media (max-width: 600px) {
+  .don-section {
+    padding: 1.2rem 0.5rem;
+  }
+  .don-main {
+    padding: 1rem 0;
+  }
+}
+</style>
