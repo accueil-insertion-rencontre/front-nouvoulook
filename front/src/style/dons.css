@@ -1,27 +1,58 @@
-.dons-main {
+.dons-bg {
+  background: #f6f6f6;
   min-height: 100vh;
-  background: #ffffff;
-  margin-top: 1.0rem;;
+  padding: 2.5rem 0;
+}
+.dons-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 32px 0 #0002;
+  max-width: 900px;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  margin: 0 auto;
 }
 .dons-yellow-box {
-  background: #fff9c4;
+  background: #fff6a3;
   border-radius: 1rem;
-  box-shadow: 0 2px 12px #0001;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 12px #0001;
+  z-index: 2;
+ 
+}
+.dons-overlap {
+  position: relative;
+  z-index: 2;
+  margin-left: -60px;
+  box-shadow: 0 2px 12px #0001;
+}
+.dons-hero-row {
+  min-height: 320px;
 }
 .dons-yellow-title {
   color: #e09c2b;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 0;
+  text-align: center;
+  
 }
 .dons-section-title {
   color: #e23e57;
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 0.7rem;
+}
+.dons-img-real {
+  max-width: 100%;
+  max-height: 340px;
+  min-height: 220px;
+  border-radius: 1rem;
+  object-fit: cover;
+  box-shadow: 0 2px 12px #0001;
+  z-index: 1;
 }
 .dons-img-placeholder {
   width: 100%;
@@ -47,23 +78,74 @@
   text-align: center;
 }
 @media (max-width: 900px) {
+  .dons-card {
+    max-width: 98vw;
+    padding: 1.5rem 0.7rem 1.2rem 0.7rem;
+  }
   .dons-yellow-title {
     font-size: 1.2rem;
   }
-  .dons-img-placeholder {
-    max-width: 220px;
-    height: 120px;
+  .dons-img-real {
+    max-height: 200px;
+    min-height: 120px;
+  }
+  .dons-overlap {
+    margin-left: 0;
+  }
+  .dons-hero-row {
+    min-height: unset;
   }
 }
 @media (max-width: 600px) {
-  .dons-main {
-    padding: 0 0.2rem;
+  .dons-bg {
+    padding: 0.5rem 0;
+  }
+  .dons-card {
+    padding: 0.7rem 0.2rem 0.7rem 0.2rem;
+    border-radius: 1rem;
   }
   .dons-yellow-box {
     padding: 1.2rem 0.7rem;
   }
-  .dons-img-placeholder {
+  .dons-img-real {
     max-width: 100%;
-    height: 90px;
+    height: auto;
+    max-height: none;
+    min-height: 120px;
+  }
+  .dons-overlap {
+    width: 100%;
+    left: 0;
+    top: 0;
+    position: static;
+    transform: none;
+    margin-bottom: 1rem;
+  }
+}
+.dons-main-with-wave {
+  position: relative;
+  background: #fff;
+  z-index: 0;
+}
+.dons-bg-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 220px;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.dons-bg-wave svg {
+  width: 100%;
+  height: 220px;
+  display: block;
+}
+@media (max-width: 600px) {
+  .dons-bg-wave,
+  .dons-bg-wave svg {
+    height: 200px;
+    min-height: 120px;
   }
 }

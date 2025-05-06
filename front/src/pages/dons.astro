@@ -1,38 +1,37 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import HeroBanner from '../components/HeroBanner.astro';
 import '../style/dons.css';
 ---
 
 <Layout title="Faire un don">
   <Header />
-  <main class="container py-5 dons-main">
-    <div class="row align-items-center mb-5 gy-4">
-      <div class="col-md-6">
-        <div class="dons-yellow-box p-4 mb-3">
+  <main class="container-fluid py-5 dons-main-with-wave position-relative p-5">
+    <div class="dons-bg-wave">
+      <svg viewBox="0 0 1440 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path fill="#fff9c4" fill-opacity="1" d="M0,160 C360,2040 1080,80 1440,160 L1440,0 L0,0 Z"></path>
+      </svg>
+    </div>
+    <div class="row justify-content-center align-items-center gy-4 mb-4 position-relative dons-hero-row">
+      <div class="col-md-6 position-relative">
+        <div class="dons-yellow-box dons-overlap p-4">
           <h2 class="mb-0 dons-yellow-title">Vous souhaitez effectuer un don ?</h2>
         </div>
       </div>
-      <div class="col-md-6 text-center">
-        <div class="dons-img-placeholder mx-auto mb-2"></div>
+      <div class="col-md-6 text-center position-relative">
+        <img src="/assets/dons.jpg" alt="Donner des vêtements" class="img-fluid rounded dons-img-real mx-auto mb-2" />
       </div>
     </div>
-
-    <div class="row justify-content-center mb-4">
-      <div class="col-lg-8">
-        <h3 class="dons-section-title">Nos horaires d'ouverture</h3>
-        <p class="mb-2">Nouvoulook vous accueille du mardi au samedi de 14h à 18h !<br><span class="fst-italic">Fermé les dimanches et les lundis.</span></p>
-      </div>
+    <div class="mb-4">
+      <h3 class="dons-section-title">Nos horaires d'ouverture</h3>
+      <p class="mb-2">Nouvoulook vous accueille du mardi au samedi de 14h à 18h !<br><span class="fst-italic">Fermé les dimanches et les lundis.</span></p>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <h3 class="dons-section-title">Concernant les dons</h3>
-        <p>Nous vous remercions chaleureusement pour votre générosité.<br>
-        Chaque don compte et contribue à aider ceux qui en ont besoin.<br>
-        Cependant, nous vous rappelons que nous ne sommes pas une décharge.<br>
-        Merci de ne donner que des vêtements propres, en bon état, et dignes d'être portés.</p>
-      </div>
+    <div>
+      <h3 class="dons-section-title">Concernant les dons</h3>
+      <p>Nous vous remercions chaleureusement pour votre générosité.<br>
+      Chaque don compte et contribue à aider ceux qui en ont besoin.<br>
+      Cependant, nous vous rappelons que nous ne sommes pas une décharge.<br>
+      Merci de ne donner que des vêtements propres, en bon état, et dignes d'être portés.</p>
     </div>
   </main>
 </Layout>
