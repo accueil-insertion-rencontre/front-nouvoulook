@@ -1,0 +1,16 @@
+---
+export interface Props {
+  titre?: string
+  texte?: string
+  texteItalique?: string
+}
+const { titre = "Nos horaires d'ouverture", texte = "", texteItalique = "" } = Astro.props;
+---
+<div class="mb-4">
+  <h3 class="dons-section-title">{titre}</h3>
+  <p class="mb-2">
+    {texte}
+    <br />
+    <span class="fst-italic">{texteItalique}</span>
+  </p>
+</div> 
