@@ -22,7 +22,7 @@ const logoAirPath = "/assets/by-air.png";
             <button class="close-menu" aria-label="Fermer le menu">×</button>
             <ul>
                 <li><a href="/">Concept</a></li>
-                <li><a href="/about">Historique</a></li>
+                <li><a href="/histoire">Historique</a></li>
                 <li><a href="/dons">Dons</a></li>
                 <li><a href="/benevolat">Bénévolat</a></li>
             </ul>
@@ -105,13 +105,15 @@ const logoAirPath = "/assets/by-air.png";
         display: none;
     }
 
-    @media (max-width: 768px) {
+    /* Responsive */
+    @media (max-width: 1024px) {
         .header-content {
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
             padding: 0 1rem;
         }
+        
 
         .menu-toggle {
             display: block;
@@ -164,16 +166,19 @@ const logoAirPath = "/assets/by-air.png";
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.querySelector('.main-nav');
     const closeMenu = document.querySelector('.close-menu');
+    const textOverlay = document.querySelector('.text-overlay') as HTMLElement;
 
-    if (menuToggle && mainNav && closeMenu) {
+    if (menuToggle && mainNav && closeMenu && textOverlay) {
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             mainNav.classList.toggle('active');
+            textOverlay.style.display = textOverlay.style.display === 'none' ? 'flex' : 'none';
         });
 
         closeMenu.addEventListener('click', () => {
             menuToggle.classList.remove('active');
             mainNav.classList.remove('active');
+            textOverlay.style.display = 'flex';
         });
     }
 </script>
