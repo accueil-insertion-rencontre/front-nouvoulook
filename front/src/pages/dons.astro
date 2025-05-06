@@ -4,6 +4,29 @@ import Header from '../components/Header.astro';
 import '../style/dons.css';
 import HorairesOuverture from '../components/HorairesOuverture.astro';
 import InfoDons from '../components/InfoDons.astro';
+import BlocImageTexte from '../components/BlocImageTexte.astro';
+import BlocCollecte from '../components/BlocCollecte.astro';
+
+const collectesDetails = [
+  { image: '/assets/picto-vetements.svg', texte: 'Vêtements et chaussures (homme, femme, enfant, bébé)' },
+  { image: '/assets/picto-linge.svg', texte: 'Linge de maison (lit, bain, table...)' },
+  { image: '/assets/picto-accessoires.svg', texte: 'Accessoires (chapeaux, sacs, bijoux...)' },
+  { image: '/assets/picto-electro.svg', texte: 'Petit électroménager' },
+  { image: '/assets/picto-jeux.svg', texte: "Jeux, jouets, livres d'enfants" },
+  { image: '/assets/picto-mobilier.svg', texte: 'Petit mobilier' },
+  { image: '/assets/picto-deco.svg', texte: 'Objets de décoration' },
+];
+
+const nonCollectesDetails = [
+  { image: '/assets/picto-tache.svg', texte: 'Vêtements tachés, abîmés, troués, boutons manquants, fermetures abîmées...' },
+  { image: '/assets/picto-electro.svg', texte: 'Le gros électroménager' },
+  { image: '/assets/picto-informatique.svg', texte: 'Le matériel informatique, HIFI, TV, téléphones, vidéos' },
+  { image: '/assets/picto-livre.svg', texte: 'Les livres adultes' },
+  { image: '/assets/picto-sport.svg', texte: 'Les équipements sportifs (rameurs, vélos, appareils...)' },
+  { image: '/assets/picto-securite.svg', texte: 'Tout ce qui est lié à la réglementation de la sécurité (siège auto, cozy...)' },
+  { image: '/assets/picto-jeux-casse.svg', texte: 'Les jeux et jouets incomplets' },
+  { image: '/assets/picto-casse.svg', texte: 'Ce qui est cassé, déchiré...' },
+];
 ---
 
 <Layout title="Faire un don">
@@ -36,8 +59,22 @@ import InfoDons from '../components/InfoDons.astro';
     />
     <InfoDons
       icone="🤲"
-      texte={`Nous vous remercions chaleureusement pour votre <span class='dons-highlight'>générosité</span>.<br>Chaque don compte et contribue à aider ceux qui en ont <span class='dons-highlight'>besoin</span>.<br>Cependant, nous vous rappelons que nous ne sommes pas une <span class='dons-highlight'>décharge</span>.<br>Merci de ne donner que des vêtements <span class='dons-highlight'>propres</span>, en <span class='dons-highlight'>bon état</span>, et dignes d'être portés.`}
+      texte={`Nous vous remercions chaleureusement pour votre <span class='dons-highlight'>générosité</span>.<br>Chaque don compte et contribue à aider ceux qui en ont <span class='dons-highlight'>besoin</span>.<br>Cependant, nous vous rappelons que nous ne sommes pas une <span class='dons-highlight'>décharge</span>.<br>Merci de ne donner que des vêtements <span class='dons-highlight'>propres</span>, en <span class='dons-highlight'>bon état</span>, et dignes d'être portés.<br> Nous nous réservons la possibilité de refuser ce qui
+est abîmé, incomplet, tâché, déchiré.<br>
+Car nous ne pouvons ni laver, ni réparer.`}
     />
+  
+
+    <section class="mt-5 pt-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-6 mb-4 ">
+          <BlocCollecte titre="Nous collectons" color="#e09c2b" details={collectesDetails} />
+        </div>
+        <div class="col-12 col-lg-6 mb-4 ">
+          <BlocCollecte titre="Nous ne collectons pas" color="#e23e57" details={nonCollectesDetails} />
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>
 
@@ -48,7 +85,7 @@ import InfoDons from '../components/InfoDons.astro';
       img.addEventListener('load', () => {
         img.classList.add('loaded');
       });
-      // Si l'image est déjà dans le cache
+     
       if (img.complete) {
         img.classList.add('loaded');
       }
