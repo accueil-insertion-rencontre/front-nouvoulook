@@ -67,10 +67,10 @@ Car nous ne pouvons ni laver, ni réparer.`}
 
     <section class="mt-5 pt-5">
       <div class="row justify-content-center">
-        <div class="col-12 col-lg-6 mb-4 ">
+        <div class="col-12 col-lg-6 mb-4 fade-in-scroll">
           <BlocCollecte titre="Nous collectons" color="#e09c2b" details={collectesDetails} />
         </div>
-        <div class="col-12 col-lg-6 mb-4 ">
+        <div class="col-12 col-lg-6 mb-4 fade-in-scroll">
           <BlocCollecte titre="Nous ne collectons pas" color="#e23e57" details={nonCollectesDetails} />
         </div>
       </div>
@@ -90,5 +90,16 @@ Car nous ne pouvons ni laver, ni réparer.`}
         img.classList.add('loaded');
       }
     }
+
+    const els = document.querySelectorAll('.fade-in-scroll');
+    const observer = new window.IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    els.forEach(el => observer.observe(el));
   });
 </script>
