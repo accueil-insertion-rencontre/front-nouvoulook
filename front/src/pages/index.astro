@@ -1,25 +1,10 @@
 ---
+import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import HeroBanner from '../components/HeroBanner.astro';
 ---
 
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8">
-    <title>Nouvoulook - Accueil</title>
-  </head>
-
-
-  <body>
-	  <Header />
-	  <HeroBanner />
-  </body>
-
-  <style>
-	/* Font appliquée sur l'ensemble de la page */
-	body {
-		font-family: sans-serif;
-	}
-  </style>
-</html> 
+<Layout title="Nouvoulook - Accueil">
+  <Header />
+  <HeroBanner />
+</Layout>

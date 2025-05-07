@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import '../style/dons.css';
+import HorairesOuverture from '../components/HorairesOuverture.astro';
+import InfoDons from '../components/InfoDons.astro';
+
+import BlocCollecte from '../components/BlocCollecte.astro';
+
+const collectesDetails = [
+  { image: '/assets/pictos/picto-vetements.svg', texte: 'Vêtements et chaussures (homme, femme, enfant, bébé)' },
+  { image: '/assets/pictos/picto-linge.svg', texte: 'Linge de maison (lit, bain, table...)' },
+  { image: '/assets/pictos/picto-accessoires.svg', texte: 'Accessoires (chapeaux, sacs, bijoux...)' },
+  { image: '/assets/pictos/picto-electro.svg', texte: 'Petit électroménager' },
+  { image: '/assets/pictos/picto-jeux.svg', texte: "Jeux, jouets, livres d'enfants" },
+  { image: '/assets/pictos/picto-mobilier.svg', texte: 'Petit mobilier' },
+  { image: '/assets/pictos/picto-deco.svg', texte: 'Objets de décoration' },
+];
+
+const nonCollectesDetails = [
+  { image: '/assets/pictos/picto-tache.svg', texte: 'Vêtements tachés, abîmés, troués, boutons manquants, fermetures abîmées...' },
+  { image: '/assets/pictos/picto-bigelectro.svg', texte: 'Le gros électroménager' },
+  { image: '/assets/pictos/picto-informatique.svg', texte: 'Le matériel informatique, HIFI, TV, téléphones, vidéos' },
+  { image: '/assets/pictos/picto-livre.svg', texte: 'Les livres adultes' },
+  { image: '/assets/pictos/picto-sport.svg', texte: 'Les équipements sportifs (rameurs, vélos, appareils...)' },
+  { image: '/assets/pictos/picto-securite.svg', texte: 'Tout ce qui est lié à la réglementation de la sécurité (siège auto, cozy...)' },
+  { image: '/assets/pictos/picto-jeux-casse.svg', texte: 'Les jeux et jouets incomplets' },
+  { image: '/assets/pictos/picto-casse.svg', texte: 'Ce qui est cassé, déchiré...' },
+];
+---
+
+<Layout title="Faire un don">
+  <Header />
+  <main class="container-fluid py-5 dons-main-with-wave position-relative p-5">
+    <div class="dons-bg-wave">
+      <svg viewBox="0 0 1440 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path fill="#ffa14e" fill-opacity="1" d="M0,160 C360,2040 1080,80 1440,160 L1440,0 L0,0 Z"></path>
+      </svg>
+    </div>
+    <div class="row justify-content-center align-items-center gy-4 mb-4 position-relative dons-hero-row">
+      <div class="col-md-6 position-relative">
+        <div class="dons-yellow-box dons-overlap p-4">
+          <h2 class="mb-0 dons-yellow-title">Vous souhaitez effectuer un don ?</h2>
+        </div>
+      </div>
+      <div class="col-md-6 text-center position-relative">
+        <img
+          src="/assets/dons.jpg"
+          alt="Donner des vêtements"
+          class="img-fluid rounded dons-img-real mx-auto mb-2"
+          id="don-img"
+        />
+      </div>
+    </div>
+    <HorairesOuverture
+      icone="⏰"
+      texte="Nouvoulook vous accueille du mardi au vendredi matin de 9h à 12h ! Ainsi que le samedi après midi de 14h à 18h."
+      texteItalique="Fermé les dimanches et les lundis."
+    />
+    <InfoDons
+      icone="🤲"
+      texte={`Nous vous remercions chaleureusement pour votre <span class='dons-highlight'>générosité</span>.<br>Chaque don compte et contribue à aider ceux qui en ont <span class='dons-highlight'>besoin</span>.<br>Cependant, nous vous rappelons que nous ne sommes pas une <span class='dons-highlight'>décharge</span>.<br>Merci de ne donner que des vêtements <span class='dons-highlight'>propres</span>, en <span class='dons-highlight'>bon état</span>, et dignes d'être portés.<br> Nous nous réservons la possibilité de refuser ce qui
+est abîmé, incomplet, tâché, déchiré.<br>
+Car nous ne pouvons ni laver, ni réparer.`}
+    />
+  
+
+    <section class="mt-5 pt-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-6 mb-4 fade-in-scroll">
+          <BlocCollecte titre="Nous collectons" color="#e09c2b" details={collectesDetails} />
+        </div>
+        <div class="col-12 col-lg-6 mb-4 fade-in-scroll">
+          <BlocCollecte titre="Nous ne collectons pas" color="#e23e57" details={nonCollectesDetails} />
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const img = document.getElementById('don-img');
+    if (img) {
+      img.addEventListener('load', () => {
+        img.classList.add('loaded');
+      });
+     
+      if (img.complete) {
+        img.classList.add('loaded');
+      }
+    }
+
+    const els = document.querySelectorAll('.fade-in-scroll');
+    const observer = new window.IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    els.forEach(el => observer.observe(el));
+  });
+</script>
