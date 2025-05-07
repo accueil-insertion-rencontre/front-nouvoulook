@@ -1,0 +1,11 @@
+---
+export interface Props {
+  image?: string
+  texte: string
+}
+const { image, texte } = Astro.props;
+---
+<div class="mini-bloc d-flex align-items-center mb-2">
+  {image && <img src={image} alt="" class="mini-bloc-img me-2" />}
+  <span>{texte}</span>
+</div> 

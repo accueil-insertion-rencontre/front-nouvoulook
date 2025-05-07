@@ -1,4 +1,5 @@
 ---
+import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import HeroBanner from '../components/HeroBanner.astro';
 import ValuesCard from '../components/ValuesCard.astro';
@@ -9,28 +10,14 @@ import Footer from '../components/Footer.astro';
 
 ---
 
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8">
-    <title>Nouvoulook - Accueil</title>
-  </head>
-
-
-  <body>
-	  <Header />
-	  <HeroBanner />
-    <ValuesCard />
+<Layout title="Nouvoulook - Accueil">
+  
+  <Header />
+  <HeroBanner />
+   <ValuesCard />
     <LocalDiscount />
     <HumanShop />
     <Partners />
     <Footer />
-  </body>
+</Layout>
 
-  <style>
-	/* Font appliquée sur l'ensemble de la page */
-	body {
-		font-family: sans-serif;
-	}
-  </style>
-</html> 

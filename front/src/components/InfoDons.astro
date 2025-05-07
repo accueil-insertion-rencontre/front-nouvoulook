@@ -1,0 +1,15 @@
+---
+export interface Props {
+  titre?: string
+  texte?: string
+  icone?: string
+}
+const { titre = "Concernant les dons", texte = "", icone = "🤲" } = Astro.props;
+---
+<div class="fade-in">
+  <h3 class="dons-section-title d-flex align-items-center">
+    <span class="dons-icone" aria-hidden="true">{icone}</span>
+    {titre}
+  </h3>
+  <p set:html={texte}></p>
+</div> 

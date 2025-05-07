@@ -1,0 +1,20 @@
+---
+export interface Props {
+  titre?: string
+  texte?: string
+  texteItalique?: string
+  icone?: string
+}
+const { titre = "Nos horaires d'ouverture", texte = "", texteItalique = "", icone = "⏰" } = Astro.props;
+---
+<div class="mb-4 fade-in">
+  <h3 class="dons-section-title d-flex align-items-center">
+    <span class="dons-icone" aria-hidden="true">{icone}</span>
+    {titre}
+  </h3>
+  <p class="mb-2">
+    {texte}
+    <br />
+    <span class="fst-italic">{texteItalique}</span>
+  </p>
+</div> 
