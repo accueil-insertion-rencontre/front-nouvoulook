@@ -1,0 +1,157 @@
+---
+interface TimelineItem {
+    year: string;
+    description: string;
+}
+
+const timelineItems: TimelineItem[] = [
+    {
+        year: "2005",
+        description: "Lancement d'un projet de boutique solidaire"
+    },
+    {
+        year: "2009",
+        description: "Création de la boutique Nouvoulook"
+    },
+    {
+        year: "2014",
+        description: "Création de 3 postes"
+    },
+    {
+        year: "2017",
+        description: "Dépôt de dossier en tant qu'entreprise testeuse auprès de partenaires européens"
+    },
+];
+---
+
+<div class="timeline-container">
+    <h2 class="timeline-title">Historique</h2>
+    <div class="timeline">
+        {timelineItems.map((item) => (
+            <div class="timeline-item">
+                <div class="timeline-content">
+                   <div class="timeline-date">{item.year}</div>
+                   <div class="timeline-description">{item.description}</div>
+                </div>
+            </div>
+        ))}
+    </div>
+</div>
+
+<style>
+    .timeline-container {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .timeline-title {
+        position: relative;
+        text-align: left;
+        right: 6%;
+        color: #D52151;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 100;
+        width: fit-content;
+        margin: clamp(30px, 5vh, 50px) 0 clamp(2rem, 5vh, 4rem);
+        padding-bottom: 1rem;
+        border-bottom: 2px solid currentColor;
+    }
+
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, #E91E63, #4a4a4a);
+        border-radius: 2px;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 3rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        background: #fff;
+        border: 4px solid #E91E63;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover::before {
+        background: #E91E63;
+        box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.2);
+    }
+
+    .timeline-content {
+        width: 45%;
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-content {
+        transform: translateY(-5px);
+    }
+
+    .timeline-date {
+        color: #E91E63;
+        font-weight: bold;
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .timeline-description {
+        color: #4a4a4a;
+        line-height: 1.6;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+        margin-right: 55%;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 55%;
+    }
+
+    @media (max-width: 768px) {
+        .timeline::before {
+            left: 30px;
+        }
+
+        .timeline-item::before {
+            left: 30px;
+        }
+
+        .timeline-content {
+            width: calc(100% - 60px);
+            margin-left: 60px !important;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content,
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 60px !important;
+        }
+    }
+</style>
