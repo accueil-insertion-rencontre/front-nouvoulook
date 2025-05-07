@@ -9,123 +9,48 @@
         </div>
       </div>
       <ul class="nav flex-column sidebar-nav mb-4">
-        <li class="nav-item active">Dolor</li>
-        <li class="nav-item">Consectetur</li>
-        <li class="nav-item">Adipiscing</li>
-        <li class="nav-item">Incididunt</li>
-        <li class="nav-item">Exercitation</li>
-        <li class="nav-item">Reprehenderit</li>
+        <li class="nav-item active">Affichage</li>
+        <li class="nav-item">Gérer utilisateurs</li>
+        <li class="nav-item">Page des dons</li>
+        <li class="nav-item">Page des bénévoles</li>
+        <li class="nav-item">Actualités</li>
+        <li class="nav-item">Partenaires</li>
       </ul>
       <button class="btn btn-warning w-100 add-btn">+ Add</button>
     </nav>
 
-    <!-- Main content -->
+    <!-- Main content : Affichage -->
     <main class="col-md-7 ms-sm-auto px-md-4 py-4 main-content">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <nav class="main-nav nav gap-3">
-          <a class="nav-link" href="#">Lorem</a>
-          <a class="nav-link" href="#">Ipsum</a>
-          <a class="nav-link" href="#">Dolor</a>
-          <a class="nav-link" href="#">Tempor</a>
-          <a class="nav-link" href="#">Minim</a>
-        </nav>
+        <h2>Statistiques de fréquentation</h2>
         <button class="btn btn-primary logout-btn" (click)="logout()">Déconnexion</button>
       </div>
       <div class="row g-3 mb-4">
-        <div class="col-6 col-lg-3">
+        <div class="col-6 col-lg-4">
           <div class="stat-card orange">
-            <span class="stat-label">ELIT</span>
-            <span class="stat-value">$ 8,000</span>
+            <span class="stat-label">Visiteurs aujourd'hui</span>
+            <span class="stat-value">{{ todayVisits !== null ? todayVisits : '...' }}</span>
           </div>
         </div>
-        <div class="col-6 col-lg-3">
+        <div class="col-6 col-lg-4">
           <div class="stat-card blue">
-            <span class="stat-label">AMET</span>
-            <span class="stat-value">$ 7,230</span>
-          </div>
-        </div>
-        <div class="col-6 col-lg-3">
-          <div class="stat-card green">
-            <span class="stat-label">ENIM</span>
-            <span class="stat-value">$ 3,080</span>
-          </div>
-        </div>
-        <div class="col-6 col-lg-3">
-          <div class="stat-card purple">
-            <span class="stat-label">SUNT</span>
-            <span class="stat-value">$ 9,500</span>
+            <span class="stat-label">Visiteurs totaux</span>
+            <span class="stat-value">{{ totalVisits !== null ? totalVisits : '...' }}</span>
           </div>
         </div>
       </div>
-      <div class="row g-3 mb-3">
-        <div class="col-md-6">
+      <div class="row g-3 mb-4">
+        <div class="col-12">
           <div class="widget big">
-            <h3>Labore Dolore</h3>
-            <div class="widget-circles d-flex justify-content-around">
-              <div class="circle-stat">
-                <span class="circle-value">77</span>
-                <span class="circle-label">Ullamco</span>
-              </div>
-              <div class="circle-stat">
-                <span class="circle-value">29</span>
-                <span class="circle-label">Laboris</span>
-              </div>
-              <div class="circle-stat">
-                <span class="circle-value">86</span>
-                <span class="circle-label">Commodo</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="widget big">
-            <h3>Magna Aliqua</h3>
-            <div class="widget-bars d-flex align-items-end gap-3">
-              <div class="bar-group">
-                <div class="bar-label">Jan</div>
-                <div class="bar bar1"></div>
-              </div>
-              <div class="bar-group">
-                <div class="bar-label">Feb</div>
-                <div class="bar bar2"></div>
-              </div>
-              <div class="bar-group">
-                <div class="bar-label">Mar</div>
-                <div class="bar bar3"></div>
-              </div>
-              <div class="bar-group">
-                <div class="bar-label">Apr</div>
-                <div class="bar bar4"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row g-3">
-        <div class="col-md-6">
-          <div class="widget">
-            <h3>Velit Esse</h3>
-            <div class="widget-graph">
-              <div class="graph-placeholder"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="widget">
-            <h3>Lorem Ipsum</h3>
-            <div class="widget-progress">
-              <div class="progress-row">
-                <span>Lorem</span>
-                <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
-              </div>
-              <div class="progress-row">
-                <span>Ipsum</span>
-                <div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>
-              </div>
-              <div class="progress-row">
-                <span>Dolor</span>
-                <div class="progress-bar"><div class="progress-fill" style="width: 40%"></div></div>
-              </div>
+            <h3>Progression des visites par semaine</h3>
+            <div class="progression-graph d-flex align-items-end gap-3" style="height: 180px;">
+              <ng-container *ngFor="let week of visitsByWeek">
+                <div class="bar-group text-center">
+                  <div class="bar-label mb-1">{{ week.label }}</div>
+                  <div class="bar" [style.height]="(week.value || 1) * 1.2 + 'px'" style="width: 28px; background: #a29bfe;"></div>
+                  <div class="bar-value mt-1">{{ week.value }}</div>
+                </div>
+              </ng-container>
             </div>
           </div>
         </div>
