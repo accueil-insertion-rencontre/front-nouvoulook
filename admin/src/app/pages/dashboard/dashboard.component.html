@@ -1,0 +1,166 @@
+<div class="container-fluid dashboard-bootstrap">
+  <div class="row">
+    <!-- Sidebar -->
+    <nav class="col-md-2 d-none d-md-block bg-white sidebar py-4">
+      <div class="profile mb-4">
+        <div class="avatar">{{ firstname.charAt(0) }}{{ lastname.charAt(0) }}</div>
+        <div class="profile-info">
+          <span class="profile-name">{{ firstname }} {{ lastname }}</span>
+        </div>
+      </div>
+      <ul class="nav flex-column sidebar-nav mb-4">
+        <li class="nav-item active">Dolor</li>
+        <li class="nav-item">Consectetur</li>
+        <li class="nav-item">Adipiscing</li>
+        <li class="nav-item">Incididunt</li>
+        <li class="nav-item">Exercitation</li>
+        <li class="nav-item">Reprehenderit</li>
+      </ul>
+      <button class="btn btn-warning w-100 add-btn">+ Add</button>
+    </nav>
+
+    <!-- Main content -->
+    <main class="col-md-7 ms-sm-auto px-md-4 py-4 main-content">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <nav class="main-nav nav gap-3">
+          <a class="nav-link" href="#">Lorem</a>
+          <a class="nav-link" href="#">Ipsum</a>
+          <a class="nav-link" href="#">Dolor</a>
+          <a class="nav-link" href="#">Tempor</a>
+          <a class="nav-link" href="#">Minim</a>
+        </nav>
+        <button class="btn btn-primary logout-btn" (click)="logout()">Déconnexion</button>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+          <div class="stat-card orange">
+            <span class="stat-label">ELIT</span>
+            <span class="stat-value">$ 8,000</span>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card blue">
+            <span class="stat-label">AMET</span>
+            <span class="stat-value">$ 7,230</span>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card green">
+            <span class="stat-label">ENIM</span>
+            <span class="stat-value">$ 3,080</span>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card purple">
+            <span class="stat-label">SUNT</span>
+            <span class="stat-value">$ 9,500</span>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <div class="widget big">
+            <h3>Labore Dolore</h3>
+            <div class="widget-circles d-flex justify-content-around">
+              <div class="circle-stat">
+                <span class="circle-value">77</span>
+                <span class="circle-label">Ullamco</span>
+              </div>
+              <div class="circle-stat">
+                <span class="circle-value">29</span>
+                <span class="circle-label">Laboris</span>
+              </div>
+              <div class="circle-stat">
+                <span class="circle-value">86</span>
+                <span class="circle-label">Commodo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="widget big">
+            <h3>Magna Aliqua</h3>
+            <div class="widget-bars d-flex align-items-end gap-3">
+              <div class="bar-group">
+                <div class="bar-label">Jan</div>
+                <div class="bar bar1"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label">Feb</div>
+                <div class="bar bar2"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label">Mar</div>
+                <div class="bar bar3"></div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label">Apr</div>
+                <div class="bar bar4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="widget">
+            <h3>Velit Esse</h3>
+            <div class="widget-graph">
+              <div class="graph-placeholder"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="widget">
+            <h3>Lorem Ipsum</h3>
+            <div class="widget-progress">
+              <div class="progress-row">
+                <span>Lorem</span>
+                <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+              </div>
+              <div class="progress-row">
+                <span>Ipsum</span>
+                <div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>
+              </div>
+              <div class="progress-row">
+                <span>Dolor</span>
+                <div class="progress-bar"><div class="progress-fill" style="width: 40%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right panel -->
+    <aside class="col-md-3 d-none d-md-block right-panel py-4">
+      <div class="calendar-widget mb-4">
+        <div class="calendar-header d-flex justify-content-between align-items-center">
+          <span>Calendar</span>
+          <span class="calendar-date">May 2020</span>
+        </div>
+        <div class="calendar-body">
+          <div class="calendar-grid">
+            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+            <div></div><div></div><div></div><div></div><div>1</div><div>2</div><div>3</div>
+            <div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
+            <div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div>
+            <div>18</div><div>19</div><div>20</div><div>21</div><div>22</div><div>23</div><div>24</div>
+            <div>25</div><div>26</div><div>27</div><div>28</div><div>29</div><div>30</div><div>31</div>
+          </div>
+        </div>
+      </div>
+      <div class="event-widget">
+        <div class="event-block mb-3">
+          <span class="event-date">Saturday, 23</span>
+          <span class="event-time">18:00 AM</span>
+          <button class="btn btn-info event-btn">Send message to Mom</button>
+        </div>
+        <div class="event-block">
+          <span class="event-date">Monday, 25</span>
+          <button class="btn btn-success event-btn add">New Event</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div> 
