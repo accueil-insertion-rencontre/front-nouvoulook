@@ -1,16 +1,23 @@
 <div class="login-container">
   <div class="login-card">
     <h2>Connexion à l'espace admin</h2>
-    <form (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" autocomplete="off">
+      <!-- Champ caché piège pour tromper l'autocomplétion -->
+      <input type="text" style="display:none" autocomplete="username" />
+      <input type="password" style="display:none" autocomplete="new-password" />
       <div class="form-group">
         <label for="email">Email</label>
-        <input id="email" type="email" [(ngModel)]="email" name="email" required autocomplete="username" />
+        <input id="email" type="email" [(ngModel)]="email" name="login_email" required autocomplete="off" />
       </div>
       <div class="form-group">
         <label for="password">Mot de passe</label>
-        <input id="password" type="password" [(ngModel)]="password" name="password" required autocomplete="current-password" />
+        <input id="password" type="password" [(ngModel)]="password" name="login_password" required autocomplete="new-password" />
       </div>
-      <button class="login-btn" type="submit">Se connecter</button>
+      <div class="form-group remember-me">
+        <input id="rememberMe" type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
+        <label for="rememberMe">Se souvenir de moi</label>
+      </div>
+      <button class="login-btn" type="submit" [disabled]="!isFormValid()">Se connecter</button>
       <div *ngIf="error" class="error">{{ error }}</div>
     </form>
   </div>
