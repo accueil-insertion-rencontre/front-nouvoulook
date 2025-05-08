@@ -2,36 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import HeroBanner from '../components/HeroBanner.astro';
-import ValuesCard from '../components/ValuesCard.astro';
-import LocalDiscount from '../components/LocalDiscount.astro';
-import HumanShop from '../components/HumanShop.astro';
-import Partners from '../components/Partners.astro';
-import Footer from '../components/Footer.astro';  
-
 ---
 
 <Layout title="Nouvoulook - Accueil">
   <Header />
   <HeroBanner />
-  <ValuesCard />
-    <LocalDiscount />
-    <HumanShop />
-    <Partners />
-    <Footer />
-  <script is:inline>
-    // Détection simple des bots
-    const isBot = () => {
-      const ua = navigator.userAgent.toLowerCase();
-      return /bot|crawl|spider|slurp|facebook|pingdom|monitor|preview|headless|phantom|curl|wget/.test(ua);
-    };
-
-    // Visiteur unique par jour (clé = date du jour)
-    const today = new Date().toISOString().slice(0, 10);
-    const visitKey = `nouvoulook_visited_${today}`;
-    if (!isBot() && !localStorage.getItem(visitKey)) {
-      fetch('http://localhost:3001/statistics/visit', { method: 'POST' })
-        .then(() => localStorage.setItem(visitKey, '1'));
-    }
-  </script>
 </Layout>
-
