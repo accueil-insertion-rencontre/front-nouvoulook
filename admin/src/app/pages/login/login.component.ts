@@ -53,11 +53,14 @@ export class LoginComponent {
     }
     this.auth.login(this.email, this.password).subscribe({
       next: (res) => {
+        if (!res.user) {
+          this.error = 'Erreur de configuration du compte';
+          return;
+        }
         this.auth.setTokens(res.access_token, res.refresh_token, this.rememberMe, res.user);
         this.router.navigate(['/admin']);
       },
-      error: (err) => {
-        console.log(err); // Pour debug : voir la structure de l'erreur
+      error: () => {
         this.error = 'Identifiants incorrects';
         this.password = '';
       }
