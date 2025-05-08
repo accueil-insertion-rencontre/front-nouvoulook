@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { PermissionsService } from '../../services/permissions.service';
 
 @Component({
   selector: 'app-user-list',
@@ -11,7 +12,10 @@ import { environment } from '../../../environments/environment';
   template: `
     <ng-container *ngIf="isAdmin; else forbidden">
       <h2>Liste des utilisateurs</h2>
-      <button class="btn btn-success mb-3" (click)="openAddModal()">Ajouter un utilisateur</button>
+      <div class="d-flex gap-2 mb-3">
+        <button class="btn btn-success" (click)="openAddModal()">Ajouter un utilisateur</button>
+        <button class="btn btn-secondary" (click)="openPermissionsModal()">Gérer les permissions</button>
+      </div>
       <table class="table table-striped" *ngIf="users.length">
         <thead>
           <tr>
@@ -27,7 +31,14 @@ import { environment } from '../../../environments/environment';
             <td>{{ user.firstname }}</td>
             <td>{{ user.lastname }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.roles ? user.roles.join(', ') : '' }}</td>
+            <td>
+              <ng-container *ngIf="user.roles && user.roles.length; else noRole">
+                <span *ngFor="let r of user.roles; let last = last">
+                  {{ getRoleLabel(r) }}<span *ngIf="!last">, </span>
+                </span>
+              </ng-container>
+              <ng-template #noRole>-</ng-template>
+            </td>
             <td>
               <button class="btn btn-sm btn-primary me-2" (click)="openEditModal(user)">Modifier</button>
               <button class="btn btn-sm btn-danger" (click)="deleteUser(user)" [disabled]="user.id === currentUserId">Supprimer</button>
@@ -58,17 +69,17 @@ import { environment } from '../../../environments/environment';
                 </div>
                 <div class="mb-3">
                   <label>Email</label>
-                  <input type="email" class="form-control" [(ngModel)]="addUser.email" name="email" required />
+                  <input type="email" class="form-control" [(ngModel)]="addUser.email" name="email" required autocomplete="off" />
                 </div>
                 <div class="mb-3">
                   <label>Mot de passe</label>
-                  <input type="password" class="form-control" [(ngModel)]="addUser.password" name="password" required />
+                  <input type="password" class="form-control" [(ngModel)]="addUser.password" name="password" required autocomplete="new-password" />
                 </div>
                 <div class="mb-3">
                   <label>Rôle</label>
                   <select class="form-select" [(ngModel)]="addUser.role" name="role" required>
                     <option value="user">Utilisateur</option>
-                    <option value="admin">Admin</option>
+                    <option value="admin">Administrateur</option>
                   </select>
                 </div>
               </form>
@@ -107,6 +118,51 @@ import { environment } from '../../../environments/environment';
           </div>
         </div>
       </div>
+
+      <!-- Modal Permissions -->
+      <div class="modal fade" tabindex="-1" [ngClass]="{'show d-block': showPermissionsModal}" *ngIf="showPermissionsModal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Gérer les accès par rôle</h5>
+              <button type="button" class="btn-close" (click)="closePermissionsModal()"></button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="permissionsLoading">Chargement...</div>
+              <div *ngIf="!permissionsLoading">
+                <table class="table table-bordered align-middle">
+                  <thead>
+                    <tr>
+                      <th>Rôle</th>
+                      <th *ngFor="let res of permissionResources">{{ res.label }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let role of permissionRoles">
+                      <td><b>{{ getRoleLabel(role) }}</b></td>
+                      <td *ngFor="let res of permissionResources">
+                        <input type="checkbox"
+                          class="form-check-input"
+                          [checked]="role === 'admin' ? true : hasAccess(role, res.key)"
+                          (change)="toggleAccess(role, res.key)"
+                          [disabled]="role === 'admin' || (role === 'user' && res.key === 'users')"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="alert alert-info mt-3">
+                  <b>Note :</b> Le rôle <b>Utilisateur</b> n'aura jamais accès à la gestion des utilisateurs, même si vous essayez de cocher la case.<br>
+                  L'accès donne tous les droits sur la page correspondante.
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closePermissionsModal()">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </ng-container>
     <ng-template #forbidden>
       <div class="alert alert-danger mt-4">
@@ -133,7 +189,19 @@ export class UserListComponent implements OnInit {
   userRole: string = '';
   debugInfo: boolean = true;
 
-  constructor(private http: HttpClient) {}
+  permissions: any[] = [];
+  showPermissionsModal = false;
+  permissionsLoading = false;
+  permissionRoles = ['admin', 'user'];
+  permissionResources = [
+    { key: 'users', label: 'Gérer utilisateurs' },
+    { key: 'news', label: 'Actualités' },
+    { key: 'partners', label: 'Partenaires' },
+    { key: 'donations', label: 'Page des dons' },
+    { key: 'volunteers', label: 'Page des bénévoles' }
+  ];
+
+  constructor(private http: HttpClient, private permissionsService: PermissionsService) {}
 
   ngOnInit() {
     const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
@@ -202,6 +270,17 @@ export class UserListComponent implements OnInit {
   closeEditModal() { this.showEditModal = false; }
   editUserSubmit() {
     const isSelfEdit = this.editUser.id === this.currentUserId;
+    const isAdminToUser = this.userRole === 'admin' && this.editUser.role === 'user' && isSelfEdit;
+    // Vérifier s'il reste d'autres admins
+    const otherAdmins = this.users.filter(u =>
+      u.id !== this.currentUserId &&
+      Array.isArray(u.roles) &&
+      u.roles.includes('admin')
+    );
+    if (isAdminToUser && otherAdmins.length === 0) {
+      alert('Impossible de changer votre rôle : vous êtes le dernier administrateur du système.');
+      return;
+    }
     const userToPatch = { roles: [this.editUser.role] };
     this.http.patch(environment.apiUrl + '/users/' + this.editUser.id, userToPatch, {
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token')) }
@@ -240,6 +319,91 @@ export class UserListComponent implements OnInit {
       }).subscribe({
         next: () => this.fetchUsers(),
         error: () => alert('Erreur lors de la suppression')
+      });
+    }
+  }
+
+  getRoleLabel(role: string): string {
+    switch (role) {
+      case 'admin': return 'Administrateur';
+      case 'user': return 'Utilisateur';
+      case 'partner': return 'Partenaire';
+      case 'volunteer': return 'Bénévole';
+      default: return role;
+    }
+  }
+
+  openPermissionsModal() {
+    this.showPermissionsModal = true;
+    this.loadPermissions();
+  }
+  closePermissionsModal() { this.showPermissionsModal = false; }
+
+  loadPermissions() {
+    this.permissionsLoading = true;
+    this.http.get<any[]>(environment.apiUrl + '/permissions', {
+      headers: {
+        Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token'))
+      }
+    }).subscribe({
+      next: (data) => {
+        this.permissions = data;
+        this.permissionsLoading = false;
+      },
+      error: () => {
+        this.permissions = [];
+        this.permissionsLoading = false;
+      }
+    });
+  }
+
+  hasAccess(role: string, resource: string): boolean {
+    return this.permissions.some(p => p.role === role && p.resource === resource);
+  }
+
+  toggleAccess(role: string, resource: string) {
+    // Interdire la gestion des utilisateurs pour le rôle 'user'
+    if (role === 'user' && resource === 'users') return;
+    // Interdire toute modification pour admin
+    if (role === 'admin') return;
+    const actions = ['create', 'read', 'update', 'delete'];
+    const has = this.hasAccess(role, resource);
+    if (has) {
+      // Supprimer toutes les permissions CRUD pour ce rôle/ressource
+      const perms = this.permissions.filter(p => p.role === role && p.resource === resource);
+      let done = 0;
+      perms.forEach(perm => {
+        this.http.delete(environment.apiUrl + '/permissions/' + perm.id, {
+          headers: { Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token')) }
+        }).subscribe(() => {
+          done++;
+          if (done === perms.length) {
+            this.loadPermissions();
+            // Si on modifie le rôle courant, recharger les permissions du dashboard après un court délai
+            const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || '{}');
+            if (user && user.role === role && this.permissionsService) {
+              setTimeout(() => this.permissionsService.loadPermissionsForRole(role), 200);
+            }
+          }
+        });
+      });
+    } else {
+      // Ajouter toutes les permissions CRUD pour ce rôle/ressource
+      let done = 0;
+      actions.forEach(action => {
+        this.http.post(environment.apiUrl + '/permissions', { role, resource, action }, {
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token')) }
+        }).subscribe(() => {
+          done++;
+          if (done === actions.length) {
+            this.loadPermissions();
+            // Si on modifie le rôle courant, recharger les permissions du dashboard après un court délai
+            const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || '{}');
+            if (user && user.role === role && this.permissionsService) {
+              setTimeout(() => this.permissionsService.loadPermissionsForRole(role), 200);
+            }
+          }
+        });
       });
     }
   }
