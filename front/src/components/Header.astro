@@ -3,6 +3,8 @@ const logoPath = "/assets/logo-nouvoulook.png";
 const logoAirPath = "/assets/by-air.png";
 ---
 
+<!-- Composant pour afficher le header (logo, menu, bouton) -->
+
 <header class="navbar navbar-expand-md bg-white shadow-sm py-2">
   <div class="container">
     <a class="navbar-brand d-flex flex-column align-items-center justify-content-center" href="/">
@@ -100,15 +102,13 @@ const logoAirPath = "/assets/by-air.png";
         display: none;
     }
 
-    /* Responsive */
-    @media (max-width: 1024px) {
+    @media (max-width: 768px) {
         .header-content {
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
             padding: 0 1rem;
         }
-        
 
         .menu-toggle {
             display: block;
@@ -161,19 +161,16 @@ const logoAirPath = "/assets/by-air.png";
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.querySelector('.main-nav');
     const closeMenu = document.querySelector('.close-menu');
-    const textOverlay = document.querySelector('.text-overlay') as HTMLElement;
 
-    if (menuToggle && mainNav && closeMenu && textOverlay) {
+    if (menuToggle && mainNav && closeMenu) {
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             mainNav.classList.toggle('active');
-            textOverlay.style.display = textOverlay.style.display === 'none' ? 'flex' : 'none';
         });
 
         closeMenu.addEventListener('click', () => {
             menuToggle.classList.remove('active');
             mainNav.classList.remove('active');
-            textOverlay.style.display = 'flex';
         });
     }
 </script>
