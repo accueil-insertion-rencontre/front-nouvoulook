@@ -1,59 +1,105 @@
-# Admin
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.6.
+## Configuration de l'URL et du port de l'API
 
-## Development server
+L'URL de l'API backend (et donc le port) est centralisée dans le fichier d'environnement Angular :
 
-To start a local development server, run:
+- **Développement** : `admin/src/environments/environment.ts`
+- **Production** : `admin/src/environments/environment.prod.ts`
 
-```bash
-ng serve
+Exemple :
+```typescript
+// admin/src/environments/environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3001' // Modifiez ici le port ou le domaine de l'API
+};
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+Pour la production, adaptez l'URL dans `environment.prod.ts` :
+```typescript
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.nouvoulook.com' // À adapter pour la prod
+};
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Utilisation dans le code
 
-```bash
-ng generate --help
+Dans les services Angular, l'URL de l'API est utilisée ainsi :
+
+```typescript
+import { environment } from '../../environments/environment';
+
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  private apiUrl = environment.apiUrl + '/auth/login';
+  // ...
+}
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
+Pour récupérer la liste des utilisateurs :
+```typescript
+this.http.get<any[]>(environment.apiUrl + '/users', { ... })
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Changer le port de l'API
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+Pour changer le port (par exemple passer de 3001 à 4000), il suffit de modifier :
+```typescript
+// admin/src/environments/environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:4000'
+};
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## Authentification et stockage utilisateur
 
-```bash
-ng e2e
+Lors de la connexion, le front stocke :
+- `access_token` et `refresh_token` (dans localStorage ou sessionStorage selon "Se souvenir de moi")
+- L'objet `user` (contenant `firstname`, `lastname`, `email`, etc.)
+
+Exemple dans le service :
+```typescript
+setTokens(accessToken: string, refreshToken: string, rememberMe: boolean = false, user: any = null) {
+  const storage = rememberMe ? localStorage : sessionStorage;
+  storage.setItem('access_token', accessToken);
+  storage.setItem('refresh_token', refreshToken);
+  if (user) {
+    storage.setItem('user', JSON.stringify(user));
+  }
+  // ...
+}
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Pour récupérer l'utilisateur connecté :
+```typescript
+getUser(): any {
+  const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
+  return userStr ? JSON.parse(userStr) : null;
+}
+```
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Appels API protégés
+
+Pour appeler une route protégée de l'API, le front envoie le token dans l'en-tête :
+```typescript
+this.http.get<any[]>(environment.apiUrl + '/users', {
+  headers: {
+    Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token'))
+  }
+})
+```
+
+---
+
+## Résumé
+- **Modifiez l'URL/port de l'API dans `environment.ts`** pour tout le projet.
+- **Les tokens et l'utilisateur** sont stockés côté navigateur après connexion.
+- **Les appels API** utilisent toujours l'URL centralisée et le token pour l'authentification.
+
+Pour toute question, voir le code des services ou contactez le développeur du projet.
