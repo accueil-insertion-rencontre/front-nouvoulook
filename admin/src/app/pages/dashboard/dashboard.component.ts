@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet, RouterLinkWithHref, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { PermissionsService } from '../../services/permissions.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -13,13 +14,25 @@ import { CommonModule } from '@angular/common';
 export class DashboardComponent {
   firstname = '';
   lastname = '';
+  userRole = '';
+  permissionsLoaded = false;
 
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(private auth: AuthService, private router: Router, private permissions: PermissionsService) {
     const user = this.auth.getUser();
     if (user) {
       this.firstname = user.firstname;
       this.lastname = user.lastname;
+      this.userRole = user.role;
+      this.permissionsLoaded = false;
+      this.permissions.loadPermissionsForRole(user.role);
+      this.permissions.getPermissions().subscribe(() => {
+        this.permissionsLoaded = true;
+      });
     }
+  }
+
+  hasAccess(resource: string): boolean {
+    return this.permissions.hasAccess(resource);
   }
 
   isUserRoute(): boolean {
@@ -27,6 +40,7 @@ export class DashboardComponent {
   }
 
   logout() {
+    this.permissions.clear();
     this.auth.logout();
     this.router.navigate(['/']);
   }
