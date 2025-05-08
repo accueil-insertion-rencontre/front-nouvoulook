@@ -1,7 +1,7 @@
 <div class="container-fluid dashboard-bootstrap">
   <div class="row">
     <!-- Sidebar -->
-    <nav class="col-md-2 d-none d-md-block bg-white sidebar py-4">
+    <nav *ngIf="permissionsLoaded" class="col-md-2 d-none d-md-block bg-white sidebar py-4">
       <div class="profile mb-4">
         <div class="avatar">{{ firstname.charAt(0) }}{{ lastname.charAt(0) }}</div>
         <div class="profile-info">
@@ -10,14 +10,18 @@
       </div>
       <ul class="nav flex-column sidebar-nav mb-4">
         <li class="nav-item"><a routerLink="./" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact:true}">Affichage</a></li>
-        <li class="nav-item"><a routerLink="users" routerLinkActive="active" class="nav-link">Gérer utilisateurs</a></li>
-        <li class="nav-item">Page des dons</li>
-        <li class="nav-item">Page des bénévoles</li>
-        <li class="nav-item">Actualités</li>
-        <li class="nav-item">Partenaires</li>
+        <li class="nav-item" *ngIf="hasAccess('users')"><a routerLink="users" routerLinkActive="active" class="nav-link">Gérer utilisateurs</a></li>
+        <li class="nav-item" *ngIf="hasAccess('donations')"><a routerLink="donations" routerLinkActive="active" class="nav-link">Page des dons</a></li>
+        <li class="nav-item" *ngIf="hasAccess('volunteers')"><a routerLink="volunteers" routerLinkActive="active" class="nav-link">Page des bénévoles</a></li>
+        <li class="nav-item" *ngIf="hasAccess('news')"><a routerLink="news" routerLinkActive="active" class="nav-link">Actualités</a></li>
+        <li class="nav-item" *ngIf="hasAccess('partners')"><a routerLink="partners" routerLinkActive="active" class="nav-link">Partenaires</a></li>
       </ul>
       <button class="btn btn-warning w-100 add-btn">+ Add</button>
     </nav>
+
+    <div *ngIf="!permissionsLoaded" class="col-md-2 d-none d-md-block py-4 text-center align-items-center justify-content-center">
+      <div>Chargement des permissions...</div>
+    </div>
 
     <!-- Main content -->
     <main class="col-md-7 ms-sm-auto px-md-4 py-4 main-content">
