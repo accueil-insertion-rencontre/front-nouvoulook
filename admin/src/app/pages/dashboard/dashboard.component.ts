@@ -16,6 +16,7 @@ export class DashboardComponent {
   lastname = '';
   userRole = '';
   permissionsLoaded = false;
+  sidebarOpen = false;
 
   constructor(private auth: AuthService, private router: Router, private permissions: PermissionsService) {
     const user = this.auth.getUser();

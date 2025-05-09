@@ -1,30 +1,59 @@
 // Couleurs principales
-$orange: #ffb86c;
+$orange: #ffa14e;
 $blue: #7ed6df;
 $green: #55efc4;
 $purple: #a29bfe;
 $bg-gradient: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
 $sidebar-bg: #fff;
-$main-bg: #f7f8fa;
+$main-bg: #fffdf7;
 $right-bg: #fff;
 $shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
+
+// Palette inspirée du site vitrine
+$pink: #d72660;
+$yellow: #ffe066;
+$gradient: linear-gradient(90deg, #ffe066, #ffa14e, #d72660);
+$sidebar-icon: #ffa14e;
+$sidebar-hover: #d72660;
+$table-header-bg: #ffe066;
+$table-row-alt: #fff6e6;
+$btn-green: #43aa8b;
+$btn-blue: #3b82f6;
+$btn-red: #e23e57;
+$btn-shadow: 0 2px 8px #ffa14e33;
+
+// Ajout d'un violet moderne pour la sidebar
+$sidebar-violet: #7c3aed;
+$sidebar-violet-light: #a29bfe;
+
+// Ajout d'un rouge foncé pour la sidebar
+$sidebar-red: #d72660;
+$sidebar-red-light: #b71c3b;
+
+body, .dashboard-root {
+  font-family: 'Montserrat', 'Poppins', 'Nunito', Arial, sans-serif;
+  background: $main-bg;
+}
 
 .dashboard-root {
   min-height: 100vh;
   display: flex;
   background: $bg-gradient;
-  font-family: 'Inter', Arial, sans-serif;
 }
 
 .sidebar {
   width: 220px;
   background: $sidebar-bg;
-  box-shadow: $shadow;
+  box-shadow: 0 8px 32px 0 rgba(124, 58, 237, 0.10), $shadow;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem 1rem 1rem 1rem;
   border-radius: 1.5rem 0 0 1.5rem;
+  position: relative;
+  z-index: 2;
+  // Optionnel : léger dégradé en fond
+  background: linear-gradient(135deg, #f8f7ff 60%, #e9e6ff 100%);
 }
 .profile {
   display: flex;
@@ -68,22 +97,6 @@ $shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
 .sidebar-nav li.active, .sidebar-nav li:hover {
   background: $purple;
   color: #fff;
-}
-.add-btn {
-  width: 100%;
-  background: $orange;
-  color: #fff;
-  border: none;
-  border-radius: 0.7rem;
-  padding: 0.7rem 0;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: background 0.2s;
-}
-.add-btn:hover {
-  background: darken($orange, 10%);
 }
 
 .main-content {
@@ -280,89 +293,92 @@ $shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
   display: flex;
   flex-direction: column;
   gap: 2rem;
-}
-.calendar-widget {
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: $shadow;
-  padding: 1.2rem 1rem;
-  margin-bottom: 1.5rem;
-}
-.calendar-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-weight: 600;
-  color: $purple;
-  margin-bottom: 1rem;
+  justify-content: center;
 }
-.calendar-date {
-  color: #888;
-  font-size: 0.95rem;
-}
-.calendar-body {
+.logout-btn.w-100 {
+  margin-top: 2rem;
   width: 100%;
+  max-width: 220px;
+  display: block;
 }
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.2rem;
-  font-size: 0.95rem;
-  color: #888;
-  text-align: center;
-}
-.calendar-grid div {
-  padding: 0.2rem 0;
-  border-radius: 0.3rem;
-}
-.calendar-grid div:not(:empty):hover {
+
+// Drawer mobile
+.btn-menu {
+  position: relative;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1051;
   background: $purple;
   color: #fff;
-  cursor: pointer;
-}
-.event-widget {
-  background: #fff;
   border-radius: 1rem;
   box-shadow: $shadow;
-  padding: 1.2rem 1rem;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  width: 97%;
+}
+.sidebar-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 0;
+  overflow: hidden;
+  z-index: 1050;
+  transition: width 0.3s cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+}
+.sidebar-drawer.open {
+  padding-top: 5%;
+  width: 100vw;
+  pointer-events: auto;
+}
+.sidebar-drawer .sidebar-content {
+  background: $sidebar-bg;
+  height: 100vh;
+  width: 100vw;
+  max-width: 350px;
+  box-shadow: $shadow;
+  padding: 2rem 1rem 1rem 1rem;
+  position: relative;
+  z-index: 2000;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  overflow-y: auto;
+  max-height: 100vh;
+  padding-bottom: 10%;
 }
-.event-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.3rem;
-}
-.event-date {
-  font-weight: 600;
+.sidebar-drawer .btn-close {
+  position: sticky;
+  top: 1rem;
+  right: 1rem;
+  background: none;
   color: $purple;
-}
-.event-time {
-  color: #888;
-  font-size: 0.95rem;
-}
-.event-btn {
-  background: $blue;
-  color: #fff;
+  font-size: 2rem;
   border: none;
-  border-radius: 0.7rem;
-  padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 0.5rem;
-  transition: background 0.2s;
+  z-index: 3;
+  align-self: flex-end;
 }
-.event-btn.add {
-  background: $green;
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.2);
+  z-index: 1;
+  display: none;
 }
-.event-btn:hover {
-  background: darken($blue, 10%);
+.sidebar-drawer.open .sidebar-backdrop {
+  display: block;
 }
-.event-btn.add:hover {
-  background: darken($green, 10%);
+
+// Icônes alignées
+.material-icons {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  font-size: 1.3em;
 }
 
 // Responsive
@@ -380,7 +396,9 @@ $shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
   }
   .main-content {
     border-radius: 0 0 1.5rem 1.5rem;
+    
   }
+ 
 }
 @media (max-width: 900px) {
   .cards-row, .widgets-row {
@@ -390,4 +408,151 @@ $shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
   .right-panel {
     display: none;
   }
+}
+// Responsive : masquer la sidebar sur mobile
+@media (max-width: 1199.98px) {
+  .sidebar {
+    display: none !important;
+  }
+  .main-content {
+    border-radius: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 4.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .sidebar-drawer .sidebar-content {
+    max-width: 100vw;
+    padding: 2rem 0.5rem 1rem 0.5rem;
+  }
+}
+.logout-btn.w-100.mt-3 {
+  margin-top: auto;
+  margin-bottom: 1rem;
+}
+
+// Boutons principaux
+.btn-primary, .btn-success, .btn-warning, .btn-danger, .btn-outline-secondary {
+  font-weight: 700;
+  border-radius: 0.7rem;
+  box-shadow: $btn-shadow;
+  border: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.btn-primary {
+  background: $gradient;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: $pink;
+  color: #fff;
+}
+.btn-success {
+  background: $btn-green;
+  color: #fff;
+}
+.btn-success:hover {
+  background: darken($btn-green, 10%);
+}
+.btn-warning {
+  background: $orange;
+  color: #fff;
+}
+.btn-warning:hover {
+  background: darken($orange, 10%);
+}
+.btn-danger {
+  background: $btn-red;
+  color: #fff;
+}
+.btn-danger:hover {
+  background: darken($btn-red, 10%);
+}
+.btn-outline-secondary {
+  background: #fff;
+  color: $sidebar-hover;
+  border: 2px solid $sidebar-hover;
+}
+.btn-outline-secondary:hover {
+  background: $sidebar-hover;
+  color: #fff;
+}
+
+// Table
+.table {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: $btn-shadow;
+  background: #fff;
+}
+.table thead th {
+  background: $table-header-bg;
+  color: $pink;
+  font-weight: 700;
+  border: none;
+  font-size: 1.1rem;
+}
+.table tbody tr:nth-child(even) {
+  background: $table-row-alt;
+}
+.table tbody tr {
+  border-bottom: 1px solid #ffe06655;
+}
+.table td, .table th {
+  vertical-align: middle;
+}
+
+// Titres avec glow
+h1, h2, h3, .main-content h1, .main-content h2 {
+  font-family: 'Montserrat', 'Poppins', 'Nunito', Arial, sans-serif;
+  font-weight: 800;
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px #ffa14e33) drop-shadow(0 0px 2px #a29bfe33);
+}
+
+// Cartes, modals, etc.
+.card, .modal-content, .main-content {
+  border-radius: 1.5rem;
+  box-shadow: $btn-shadow;
+  background: #fff;
+}
+
+// Effet doux sur le fond général
+.dashboard-root, .main-content {
+  background: $main-bg;
+}
+
+.sidebar-nav .nav-link {
+  color: $sidebar-red;
+  font-weight: 700;
+  border-radius: 0.7rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.1rem;
+  box-shadow: none;
+}
+.sidebar-nav .nav-link:hover {
+  background: $sidebar-red;
+  color: #fff;
+  box-shadow: 0 0 8px 0 #d7266055;
+}
+.sidebar-nav .nav-link.active {
+  background: $sidebar-hover;
+  color: #fff;
+  box-shadow: 0 0 12px 0 #d7266055;
+}
+.sidebar-nav .material-icons {
+  color: $sidebar-red;
+  font-size: 1.5em;
+  transition: color 0.2s;
+}
+.sidebar-nav .nav-link:hover .material-icons, .sidebar-nav .nav-link.active .material-icons {
+  color: #fff;
 } 
