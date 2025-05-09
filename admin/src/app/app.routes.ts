@@ -1,24 +1,40 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { authGuard } from './pages/guards/auth.guard';
-import { UserListComponent } from './pages/users/user-list.component';
-import { AffichageComponent } from './pages/affichage/affichage.component';
-import { DonationsComponent } from './pages/donations/donations.component';
-import { VolunteersComponent } from './pages/volunteers/volunteers.component';
-import { NewsComponent } from './pages/news/news.component';
-import { PartnersComponent } from './pages/partners/partners.component';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'admin', component: DashboardComponent, canActivate: [authGuard],
+  {
+    path: '',
+    loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [authGuard],
     children: [
-      { path: '', component: AffichageComponent },
-      { path: 'users', component: UserListComponent, canActivate: [authGuard] },
-      { path: 'donations', component: DonationsComponent, canActivate: [authGuard] },
-      { path: 'volunteers', component: VolunteersComponent, canActivate: [authGuard] },
-      { path: 'news', component: NewsComponent, canActivate: [authGuard] },
-      { path: 'partners', component: PartnersComponent, canActivate: [authGuard] }
+      {
+        path: '',
+        loadComponent: () => import('./pages/affichage/affichage.component').then(m => m.AffichageComponent)
+      },
+      {
+        path: 'users',
+        loadComponent: () => import('./pages/users/user-list.component').then(m => m.UserListComponent)
+      },
+      {
+        path: 'donations',
+        loadComponent: () => import('./pages/donations/donations.component').then(m => m.DonationsComponent)
+      },
+      {
+        path: 'volunteers',
+        loadComponent: () => import('./pages/volunteers/volunteers.component').then(m => m.VolunteersComponent)
+      },
+      {
+        path: 'news',
+        loadComponent: () => import('./pages/news/news.component').then(m => m.NewsComponent)
+      },
+      {
+        path: 'partners',
+        loadComponent: () => import('./pages/partners/partners.component').then(m => m.PartnersComponent)
+      }
     ]
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
   }
 ];
