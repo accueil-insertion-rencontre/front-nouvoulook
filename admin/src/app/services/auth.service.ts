@@ -77,4 +77,24 @@ export class AuthService {
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('user');
   }
+
+  async refreshAccessToken(refreshToken: string): Promise<string | null> {
+    try {
+      const response: any = await fetch(`${environment.apiUrl}/auth/refresh`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: refreshToken })
+      });
+      if (!response.ok) return null;
+      const data = await response.json();
+      if (data && data.access_token) {
+        // On ne touche pas au refresh_token, il reste le même
+        this.setTokens(data.access_token, refreshToken, false, this.getUser());
+        return data.access_token;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 } 

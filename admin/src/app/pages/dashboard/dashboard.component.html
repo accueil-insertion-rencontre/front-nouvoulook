@@ -1,7 +1,10 @@
 <div class="container-fluid dashboard-bootstrap">
   <div class="row">
     <!-- Sidebar -->
-    <nav *ngIf="permissionsLoaded" class="col-md-2 d-none d-md-block bg-white sidebar py-4">
+    <button class="btn btn-menu d-xl-none" (click)="sidebarOpen = true">
+      <span class="material-icons">menu</span>
+    </button>
+    <nav *ngIf="permissionsLoaded" class="col-md-2 d-none d-xl-block bg-white sidebar py-4" [class.sidebar-open]="sidebarOpen">
       <div class="profile mb-4">
         <div class="avatar">{{ firstname.charAt(0) }}{{ lastname.charAt(0) }}</div>
         <div class="profile-info">
@@ -9,64 +12,54 @@
         </div>
       </div>
       <ul class="nav flex-column sidebar-nav mb-4">
-        <li class="nav-item"><a routerLink="./" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact:true}">Affichage</a></li>
-        <li class="nav-item" *ngIf="hasAccess('users')"><a routerLink="users" routerLinkActive="active" class="nav-link">Gérer utilisateurs</a></li>
-        <li class="nav-item" *ngIf="hasAccess('donations')"><a routerLink="donations" routerLinkActive="active" class="nav-link">Page des dons</a></li>
-        <li class="nav-item" *ngIf="hasAccess('volunteers')"><a routerLink="volunteers" routerLinkActive="active" class="nav-link">Page des bénévoles</a></li>
-        <li class="nav-item" *ngIf="hasAccess('news')"><a routerLink="news" routerLinkActive="active" class="nav-link">Actualités</a></li>
-        <li class="nav-item" *ngIf="hasAccess('partners')"><a routerLink="partners" routerLinkActive="active" class="nav-link">Partenaires</a></li>
+        <li class="nav-item"><a routerLink="./" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact:true}" (click)="sidebarOpen = false"><span class="material-icons">home</span> Accueil</a></li>
+        <li class="nav-item" *ngIf="hasAccess('users')"><a routerLink="users" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">group</span> Utilisateurs</a></li>
+        <li class="nav-item" *ngIf="hasAccess('donations')"><a routerLink="donations" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">volunteer_activism</span> Dons</a></li>
+        <li class="nav-item" *ngIf="hasAccess('volunteers')"><a routerLink="volunteers" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">diversity_3</span> Bénévoles</a></li>
+        <li class="nav-item" *ngIf="hasAccess('news')"><a routerLink="news" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">campaign</span> Actualités</a></li>
+        <li class="nav-item" *ngIf="hasAccess('partners')"><a routerLink="partners" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">handshake</span> Partenaires</a></li>
       </ul>
-      <button class="btn btn-warning w-100 add-btn">+ Add</button>
+      <button class="btn btn-outline-secondary w-100 mb-2"><span class="material-icons">settings</span> Paramètres</button>
     </nav>
 
     <div *ngIf="!permissionsLoaded" class="col-md-2 d-none d-md-block py-4 text-center align-items-center justify-content-center">
       <div>Chargement des permissions...</div>
     </div>
 
+    <!-- Drawer mobile -->
+    <div class="sidebar-drawer d-xl-none" [class.open]="sidebarOpen">
+      <div class="sidebar-content">
+        <button class="btn btn-close" (click)="sidebarOpen = false"><span class="material-icons">close</span></button>
+        <div class="profile mb-4">
+          <div class="avatar">{{ firstname.charAt(0) }}{{ lastname.charAt(0) }}</div>
+          <div class="profile-info">
+            <span class="profile-name">{{ firstname }} {{ lastname }}</span>
+          </div>
+        </div>
+        <ul class="nav flex-column sidebar-nav mb-4">
+          <li class="nav-item"><a routerLink="./" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact:true}" (click)="sidebarOpen = false"><span class="material-icons">home</span> Accueil</a></li>
+          <li class="nav-item" *ngIf="hasAccess('users')"><a routerLink="users" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">group</span> Utilisateurs</a></li>
+          <li class="nav-item" *ngIf="hasAccess('donations')"><a routerLink="donations" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">volunteer_activism</span> Dons</a></li>
+          <li class="nav-item" *ngIf="hasAccess('volunteers')"><a routerLink="volunteers" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">diversity_3</span> Bénévoles</a></li>
+          <li class="nav-item" *ngIf="hasAccess('news')"><a routerLink="news" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">campaign</span> Actualités</a></li>
+          <li class="nav-item" *ngIf="hasAccess('partners')"><a routerLink="partners" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">handshake</span> Partenaires</a></li>
+        </ul>
+        <button class="btn btn-outline-secondary w-100 mb-2"><span class="material-icons">settings</span> Paramètres</button>
+        <button class="btn btn-primary logout-btn w-100 mt-3" (click)="logout()">Déconnexion</button>
+      </div>
+      <div class="sidebar-backdrop" (click)="sidebarOpen = false"></div>
+    </div>
+
     <!-- Main content -->
     <main class="col-md-7 ms-sm-auto px-md-4 py-4 main-content">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <nav class="main-nav nav gap-3">
-          <a class="nav-link" href="#">Lorem</a>
-          <a class="nav-link" href="#">Ipsum</a>
-          <a class="nav-link" href="#">Dolor</a>
-          <a class="nav-link" href="#">Tempor</a>
-          <a class="nav-link" href="#">Minim</a>
-        </nav>
-        <button class="btn btn-primary logout-btn" (click)="logout()">Déconnexion</button>
       </div>
       <router-outlet></router-outlet>
     </main>
 
     <!-- Right panel -->
     <aside class="col-md-3 d-none d-md-block right-panel py-4">
-      <div class="calendar-widget mb-4">
-        <div class="calendar-header d-flex justify-content-between align-items-center">
-          <span>Calendar</span>
-          <span class="calendar-date">May 2020</span>
-        </div>
-        <div class="calendar-body">
-          <div class="calendar-grid">
-            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
-            <div></div><div></div><div></div><div></div><div>1</div><div>2</div><div>3</div>
-            <div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
-            <div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div>
-            <div>18</div><div>19</div><div>20</div><div>21</div><div>22</div><div>23</div><div>24</div>
-            <div>25</div><div>26</div><div>27</div><div>28</div><div>29</div><div>30</div><div>31</div>
-          </div>
-        </div>
-      </div>
-      <div class="event-widget">
-        <div class="event-block mb-3">
-          <span class="event-date">Saturday, 23</span>
-          <span class="event-time">18:00 AM</span>
-          <button class="btn btn-info event-btn">Send message to Mom</button>
-        </div>
-        <div class="event-block">
-          <span class="event-date">Monday, 25</span>
-          <button class="btn btn-success event-btn add">New Event</button>
-        </div>
-      </div>
+      <button class="btn btn-primary logout-btn w-100" (click)="logout()">Déconnexion</button>
     </aside>
   </div>
 </div> 

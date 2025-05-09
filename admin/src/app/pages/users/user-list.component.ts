@@ -206,26 +206,17 @@ export class UserListComponent implements OnInit {
   ngOnInit() {
     const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
-    console.log('User from storage:', user); // Debug log
     
     this.currentUserId = user?.id;
     this.userRole = user?.role;
     this.isAdmin = user?.role === 'admin';
-    
-    console.log('Current user ID:', this.currentUserId); // Debug log
-    console.log('User role:', this.userRole); // Debug log
-    console.log('Is admin:', this.isAdmin); // Debug log
     
     this.fetchUsers();
   }
 
   fetchUsers() {
     this.loading = true;
-    this.http.get<any[]>(environment.apiUrl + '/users', {
-      headers: {
-        Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token'))
-      }
-    }).subscribe({
+    this.http.get<any[]>(environment.apiUrl + '/users').subscribe({
       next: (data) => {
         this.users = data;
         this.loading = false;
@@ -251,9 +242,7 @@ export class UserListComponent implements OnInit {
       password: this.addUser.password,
       roles: [this.addUser.role]
     };
-    this.http.post(environment.apiUrl + '/auth/register', userToSend, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token')) }
-    }).subscribe({
+    this.http.post(environment.apiUrl + '/auth/register', userToSend).subscribe({
       next: () => { this.closeAddModal(); this.fetchUsers(); },
       error: () => { alert('Erreur lors de l\'ajout'); }
     });
@@ -282,9 +271,7 @@ export class UserListComponent implements OnInit {
       return;
     }
     const userToPatch = { roles: [this.editUser.role] };
-    this.http.patch(environment.apiUrl + '/users/' + this.editUser.id, userToPatch, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token')) }
-    }).subscribe({
+    this.http.patch(environment.apiUrl + '/users/' + this.editUser.id, userToPatch).subscribe({
       next: () => {
         this.closeEditModal();
         this.fetchUsers();
@@ -314,9 +301,7 @@ export class UserListComponent implements OnInit {
       return;
     }
     if (confirm('Supprimer cet utilisateur ?')) {
-      this.http.delete(environment.apiUrl + '/users/' + user.id, {
-        headers: { Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token')) }
-      }).subscribe({
+      this.http.delete(environment.apiUrl + '/users/' + user.id).subscribe({
         next: () => this.fetchUsers(),
         error: () => alert('Erreur lors de la suppression')
       });
@@ -341,11 +326,7 @@ export class UserListComponent implements OnInit {
 
   loadPermissions() {
     this.permissionsLoading = true;
-    this.http.get<any[]>(environment.apiUrl + '/permissions', {
-      headers: {
-        Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token'))
-      }
-    }).subscribe({
+    this.http.get<any[]>(environment.apiUrl + '/permissions').subscribe({
       next: (data) => {
         this.permissions = data;
         this.permissionsLoading = false;
@@ -373,9 +354,7 @@ export class UserListComponent implements OnInit {
       const perms = this.permissions.filter(p => p.role === role && p.resource === resource);
       let done = 0;
       perms.forEach(perm => {
-        this.http.delete(environment.apiUrl + '/permissions/' + perm.id, {
-          headers: { Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token')) }
-        }).subscribe(() => {
+        this.http.delete(environment.apiUrl + '/permissions/' + perm.id).subscribe(() => {
           done++;
           if (done === perms.length) {
             this.loadPermissions();
@@ -391,9 +370,7 @@ export class UserListComponent implements OnInit {
       // Ajouter toutes les permissions CRUD pour ce rôle/ressource
       let done = 0;
       actions.forEach(action => {
-        this.http.post(environment.apiUrl + '/permissions', { role, resource, action }, {
-          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (localStorage.getItem('access_token') || sessionStorage.getItem('access_token')) }
-        }).subscribe(() => {
+        this.http.post(environment.apiUrl + '/permissions', { role, resource, action }).subscribe(() => {
           done++;
           if (done === actions.length) {
             this.loadPermissions();

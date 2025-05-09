@@ -2,10 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import HeroBanner from '../components/HeroBanner.astro';
+import PageViewTracker from '../components/PageViewTracker.svelte';
 ---
 
 <Layout title="Nouvoulook - Accueil">
   <Header />
   <HeroBanner />
-
+  <PageViewTracker client:load />
 </Layout>
