@@ -3,7 +3,6 @@
 
   const recordPageView = async () => {
     try {
-      console.log('Envoi de la requête de visite...');
       const response = await fetch('/api/statistics/pageview', {
         method: 'POST',
         headers: {
@@ -16,7 +15,6 @@
       });
 
       const data = await response.json();
-      console.log('Réponse du serveur:', data);
 
       if (!response.ok) {
         throw new Error('Erreur lors de l\'enregistrement de la visite');
