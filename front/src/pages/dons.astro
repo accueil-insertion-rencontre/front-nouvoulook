@@ -4,7 +4,6 @@ import Header from '../components/Header.astro';
 import '../style/dons.css';
 import HorairesOuverture from '../components/HorairesOuverture.astro';
 import InfoDons from '../components/InfoDons.astro';
-
 import BlocCollecte from '../components/BlocCollecte.astro';
 
 const collectesDetails = [
@@ -27,6 +26,17 @@ const nonCollectesDetails = [
   { image: '/assets/pictos/picto-jeux-casse.svg', texte: 'Les jeux et jouets incomplets' },
   { image: '/assets/pictos/picto-casse.svg', texte: 'Ce qui est cassé, déchiré...' },
 ];
+
+
+const response = await fetch(`${import.meta.env.API_URL}/text-donations`);
+const data = await response.json();
+const defaultSchedule = "Nouvoulook vous accueille du mardi au vendredi matin de 9h à 12h ! Ainsi que le samedi après midi de 14h à 17h.\nFermé les dimanches et les lundis.";
+const defaultAdvertising = "Nous vous remercions chaleureusement pour votre <span class='dons-highlight'>générosité</span>.<br>Chaque don compte et contribue à aider ceux qui en ont <span class='dons-highlight'>besoin</span>.<br>Cependant, nous vous rappelons que nous ne sommes pas une <span class='dons-highlight'>décharge</span>.<br>Merci de ne donner que des vêtements <span class='dons-highlight'>propres</span>, en <span class='dons-highlight'>bon état</span>, et dignes d'être portés.<br> Nous nous réservons la possibilité de refuser ce qui est abîmé, incomplet, tâché, déchiré.<br>Car nous ne pouvons ni laver, ni réparer.";
+
+const textDonation = {
+  messageSchedule: data[0]?.messageSchedule || defaultSchedule,
+  messageAdvertising: data[0]?.messageAdvertising || defaultAdvertising
+};
 ---
 
 <Layout title="Faire un don">
@@ -52,16 +62,10 @@ const nonCollectesDetails = [
         />
       </div>
     </div>
-    <HorairesOuverture
-      icone="⏰"
-      texte="Nouvoulook vous accueille du mardi au vendredi matin de 9h à 12h ! Ainsi que le samedi après midi de 14h à 18h."
-      texteItalique="Fermé les dimanches et les lundis."
-    />
+    <HorairesOuverture icone="⏰" texte={textDonation.messageSchedule} />
     <InfoDons
       icone="🤲"
-      texte={`Nous vous remercions chaleureusement pour votre <span class='dons-highlight'>générosité</span>.<br>Chaque don compte et contribue à aider ceux qui en ont <span class='dons-highlight'>besoin</span>.<br>Cependant, nous vous rappelons que nous ne sommes pas une <span class='dons-highlight'>décharge</span>.<br>Merci de ne donner que des vêtements <span class='dons-highlight'>propres</span>, en <span class='dons-highlight'>bon état</span>, et dignes d'être portés.<br> Nous nous réservons la possibilité de refuser ce qui
-est abîmé, incomplet, tâché, déchiré.<br>
-Car nous ne pouvons ni laver, ni réparer.`}
+      texte={textDonation.messageAdvertising}
     />
   
 
