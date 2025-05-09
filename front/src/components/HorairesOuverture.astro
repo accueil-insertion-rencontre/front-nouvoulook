@@ -1,19 +1,30 @@
 ---
 export interface Props {
   titre?: string
-  texte?: string
-  texteItalique?: string
   icone?: string
+  texte?: string
 }
-const { titre = "Nos horaires d'ouverture", texte = "", texteItalique = "", icone = "⏰" } = Astro.props;
+
+const { titre = "Nos horaires d'ouverture", icone = "⏰", texte } = Astro.props;
+
+let textePrincipal = '';
+let texteItalique = '';
+if (texte) {
+  [textePrincipal, texteItalique] = texte.split('\n').map((s: string) => s.trim());
+} else {
+  // fallback si jamais
+  textePrincipal = '';
+  texteItalique = '';
+}
 ---
+
 <div class="mb-4 fade-in">
   <h3 class="dons-section-title d-flex align-items-center">
     <span class="dons-icone" aria-hidden="true">{icone}</span>
     {titre}
   </h3>
   <p class="mb-2">
-    {texte}
+    {textePrincipal}
     <br />
     <span class="fst-italic">{texteItalique}</span>
   </p>
