@@ -6,27 +6,19 @@ import HorairesOuverture from '../components/HorairesOuverture.astro';
 import InfoDons from '../components/InfoDons.astro';
 import BlocCollecte from '../components/BlocCollecte.astro';
 
-const collectesDetails = [
-  { image: '/assets/pictos/picto-vetements.svg', texte: 'Vêtements et chaussures (homme, femme, enfant, bébé)' },
-  { image: '/assets/pictos/picto-linge.svg', texte: 'Linge de maison (lit, bain, table...)' },
-  { image: '/assets/pictos/picto-accessoires.svg', texte: 'Accessoires (chapeaux, sacs, bijoux...)' },
-  { image: '/assets/pictos/picto-electro.svg', texte: 'Petit électroménager' },
-  { image: '/assets/pictos/picto-jeux.svg', texte: "Jeux, jouets, livres d'enfants" },
-  { image: '/assets/pictos/picto-mobilier.svg', texte: 'Petit mobilier' },
-  { image: '/assets/pictos/picto-deco.svg', texte: 'Objets de décoration' },
-];
+// Récupération dynamique des collectes acceptées
+const collectesResponse = await fetch(`${import.meta.env.API_URL}/clothing-examples?accepted=true`);
+const collectesData = await collectesResponse.json();
+const collectesDetails = Array.isArray(collectesData)
+  ? collectesData.map(item => ({ image: item.imageUrl, texte: item.description }))
+  : [];
 
-const nonCollectesDetails = [
-  { image: '/assets/pictos/picto-tache.svg', texte: 'Vêtements tachés, abîmés, troués, boutons manquants, fermetures abîmées...' },
-  { image: '/assets/pictos/picto-bigelectro.svg', texte: 'Le gros électroménager' },
-  { image: '/assets/pictos/picto-informatique.svg', texte: 'Le matériel informatique, HIFI, TV, téléphones, vidéos' },
-  { image: '/assets/pictos/picto-livre.svg', texte: 'Les livres adultes' },
-  { image: '/assets/pictos/picto-sport.svg', texte: 'Les équipements sportifs (rameurs, vélos, appareils...)' },
-  { image: '/assets/pictos/picto-securite.svg', texte: 'Tout ce qui est lié à la réglementation de la sécurité (siège auto, cozy...)' },
-  { image: '/assets/pictos/picto-jeux-casse.svg', texte: 'Les jeux et jouets incomplets' },
-  { image: '/assets/pictos/picto-casse.svg', texte: 'Ce qui est cassé, déchiré...' },
-];
-
+// Récupération dynamique des collectes non acceptées
+const nonCollectesResponse = await fetch(`${import.meta.env.API_URL}/clothing-examples?accepted=false`);
+const nonCollectesData = await nonCollectesResponse.json();
+const nonCollectesDetails = Array.isArray(nonCollectesData)
+  ? nonCollectesData.map(item => ({ image: item.imageUrl, texte: item.description }))
+  : [];
 
 const response = await fetch(`${import.meta.env.API_URL}/text-donations`);
 const data = await response.json();
