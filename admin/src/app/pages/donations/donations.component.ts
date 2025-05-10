@@ -140,7 +140,7 @@ import { PictosService } from '../../services/pictos.service';
             <div class="mb-3">
               <a href="https://svgsilh.com/" target="_blank" class="btn btn-outline-primary btn-sm">
                 <span class="material-icons" style="font-size: 16px; vertical-align: middle;">link</span>
-                Trouver des icônes SVG sur svgsilh.com
+                Trouver des icônes libres de droit sur svgsilh.com
               </a>
             </div>
             <div class="pictos-gallery">
