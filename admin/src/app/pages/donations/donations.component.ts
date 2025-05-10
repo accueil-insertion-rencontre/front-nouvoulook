@@ -137,6 +137,12 @@ import { PictosService } from '../../services/pictos.service';
             <div class="mb-2 text-muted" style="font-size: 0.95rem;">
               Cliquez sur une image pour la sélectionner
             </div>
+            <div class="mb-3">
+              <a href="https://svgsilh.com/" target="_blank" class="btn btn-outline-primary btn-sm">
+                <span class="material-icons" style="font-size: 16px; vertical-align: middle;">link</span>
+                Trouver des icônes SVG sur svgsilh.com
+              </a>
+            </div>
             <div class="pictos-gallery">
               <div *ngFor="let picto of pictosList" style="display:inline-block; position:relative; margin:4px;">
                 <img
