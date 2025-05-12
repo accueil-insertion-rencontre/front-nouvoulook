@@ -42,6 +42,17 @@ import { PictosService } from '../../services/pictos.service';
               <div class="form-text">Ce message sera affiché sur la page des dons.</div>
             </div>
 
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">Image (URL)</label>
+              <div class="input-group">
+                <input type="text" id="imageUrl" name="imageUrl" class="form-control" [(ngModel)]="textDonation.imageUrl" />
+                <button type="button" class="btn btn-outline-secondary" (click)="openLibraryForTextDonation()">Ouvrir la bibliothèque</button>
+              </div>
+              <div *ngIf="textDonation.imageUrl" class="mt-2">
+                <img [src]="apiUrl + textDonation.imageUrl" alt="Aperçu" style="max-width: 100px; max-height: 100px;" />
+              </div>
+            </div>
+
             <button type="submit" class="btn btn-primary" [disabled]="!donationForm.form.valid || loading">
               {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
             </button>
@@ -57,7 +68,7 @@ import { PictosService } from '../../services/pictos.service';
         <thead>
           <tr>
             <th>Image</th>
-            <th>Description</th>
+            <th>Nom</th>
             <th>Accepté</th>
             <th>Actions</th>
           </tr>
@@ -67,7 +78,7 @@ import { PictosService } from '../../services/pictos.service';
             <td *ngIf="item.imageUrl">
               <img [src]="apiUrl + item.imageUrl" alt="Image collecte" style="width:48px; height:48px;">
             </td>
-            <td>{{ item.description }}</td>
+            <td>{{ item.name }}</td>
             <td>
               <input type="checkbox" [(ngModel)]="item.accepted" (change)="toggleAccepted(item)" />
             </td>
@@ -175,7 +186,8 @@ import { PictosService } from '../../services/pictos.service';
 export class DonationsComponent implements OnInit {
   textDonation: any = {
     messageSchedule: '',
-    messageAdvertising: ''
+    messageAdvertising: '',
+    imageUrl: ''
   };
   loading = false;
 
@@ -191,6 +203,8 @@ export class DonationsComponent implements OnInit {
   selectedPictoId: number | null = null;
 
   apiUrl = 'http://localhost:3001'; // À adapter selon l'environnement
+
+  libraryTarget: 'clothingExample' | 'textDonation' = 'clothingExample';
 
   constructor(private http: HttpClient, private pictosService: PictosService) {}
 
@@ -227,7 +241,7 @@ export class DonationsComponent implements OnInit {
       next: (response) => {
         this.textDonation = response;
         this.loading = false;
-        alert('Horaires mis à jour avec succès !');
+        alert('Les modifications ont été mis à jour avec succès !');
       },
       error: (error) => {
         console.error('Erreur lors de la mise à jour des horaires:', error);
@@ -292,6 +306,7 @@ export class DonationsComponent implements OnInit {
   }
 
   openLibrary() {
+    this.libraryTarget = 'clothingExample';
     this.showLibrary = true;
     this.loadPictos();
   }
@@ -305,7 +320,11 @@ export class DonationsComponent implements OnInit {
   }
 
   selectPictoFromLibrary(picto: any) {
-    this.currentItem.imageUrl = picto.url;
+    if (this.libraryTarget === 'textDonation') {
+      this.textDonation.imageUrl = picto.url;
+    } else {
+      this.currentItem.imageUrl = picto.url;
+    }
     this.selectedPictoId = picto.id;
     this.closeLibrary();
   }
@@ -321,5 +340,11 @@ export class DonationsComponent implements OnInit {
     if (file) {
       this.pictosService.uploadPicto(file).subscribe(() => this.loadPictos());
     }
+  }
+
+  openLibraryForTextDonation() {
+    this.libraryTarget = 'textDonation';
+    this.showLibrary = true;
+    this.loadPictos();
   }
 } 
