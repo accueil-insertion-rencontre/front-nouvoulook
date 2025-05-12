@@ -17,7 +17,7 @@ import { PictosService } from '../../services/pictos.service';
         <div class="card-body">
           <form (ngSubmit)="onSubmit()" #donationForm="ngForm">
             <div class="mb-3">
-              <label for="messageSchedule" class="form-label">Horaires d'ouverture</label>
+              <label for="messageSchedule" class="form-label">Horaires d'ouverture pour les dons</label>
               <textarea
                 id="messageSchedule"
                 name="messageSchedule"
