@@ -152,8 +152,8 @@ import { PermissionsService } from '../../services/permissions.service';
                   </tbody>
                 </table>
                 <div class="alert alert-info mt-3">
-                  <b>Note :</b> Le rôle <b>Utilisateur</b> n'aura jamais accès à la gestion des utilisateurs, même si vous essayez de cocher la case.<br>
-                  L'accès donne tous les droits sur la page correspondante.
+                  <b>Notes :<br></b> - Le rôle <b>Utilisateur</b> n'aura jamais accès à la gestion des utilisateurs, même si vous essayez de cocher la case.<br>
+                  - L'accès donne tous les droits sur la page correspondante.
                 </div>
               </div>
             </div>
