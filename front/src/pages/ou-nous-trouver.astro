@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+---
+
+<Layout title="Où nous trouver ?">
+  <Header />
+  <main class="container py-5">
+    <div class="row align-items-center justify-content-center g-5">
+      <div class="col-lg-5 mb-4 mb-lg-0">
+        <h1 class="fw-bold mb-4" style="color:#e23e57;">Où nous trouver ?</h1>
+        <p class="fs-5 mb-3">Boutique Nouvoulook<br>
+            65 Bd Clemenceau <br>
+             59700 Marcq-en-Barœul <br>
+          <span style="color:#fc4811;">France</span><br>
+          <span class="mt-2 d-block"><i class="bi bi-telephone-fill me-2" style="color:#e23e57;"></i><a href="tel:0328076652" style="color:#e23e57; text-decoration:none;">03 28 07 66 52</a></span>
+        </p>
+        <div class="mb-2">
+          <span class="fw-bold">Horaires :</span><br>
+          Mardi au samedi : 14h - 18h<br>
+          Fermé dimanche et lundi
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="ratio ratio-4x3 rounded shadow" style="min-height:300px;">
+          <iframe
+            src="https://www.google.com/maps?q=65+Bd+Clemenceau,+Marcq-en-Baroeul&output=embed"
+            width="100%" height="100%" style="border:0; border-radius:1rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout> 
