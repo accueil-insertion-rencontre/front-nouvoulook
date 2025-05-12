@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
             <div class="mb-3">
               <label for="smtpPass" class="form-label">
                 <a href="https://support.microsoft.com/fr-fr/account-billing/comment-obtenir-et-utiliser-des-mots-de-passe-d-application-5896ed9b-4263-e681-128a-a6f2979a7944" target="_blank" class="text-primary text-decoration-underline" style="cursor:pointer;">
-                  mot de passe d'application
+                  Mot de passe d'application
                 </a> outlook
               </label>
               <input type="password" id="smtpPass" name="smtpPass" class="form-control" [(ngModel)]="contactInfo.smtpPass" required autocomplete="new-password" />
