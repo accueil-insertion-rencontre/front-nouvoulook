@@ -5,7 +5,7 @@ import '../style/benevolat.css';
 
 ---
 
-<Layout title="Faire du bénévolat">
+<Layout title="Nouvoulook - Faire du bénévolat">
   <Header />
   <main class="container-fluid py-5 dons-main-with-wave position-relative p-5">
     <div class="dons-bg-wave">
@@ -101,7 +101,7 @@ import '../style/benevolat.css';
         <div class="col-lg-8">
           <div class="card shadow-lg p-4 animate__animated animate__fadeInUp">
             <h3 class="mb-4 text-center fw-bold" style="color:#e23e57;">Envie de nous rejoindre&nbsp;?</h3>
-            <form>
+            <form id="contact-form">
               <div class="row g-3 mb-3">
                 <div class="col-md-6">
                   <label for="nom" class="form-label">Nom</label>
@@ -164,5 +164,41 @@ import '../style/benevolat.css';
       });
     }, { threshold: 0.2 });
     els.forEach(el => observer.observe(el));
+
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(form));
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      
+      try {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Envoi en cours...';
+        
+        const res = await fetch('http://localhost:3001/contact-form', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...formData,
+            type: 'benevolat',
+            sujet: 'Nouvelle candidature bénévole'
+          })
+        });
+        
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Erreur lors de l\'envoi');
+        
+        alert('Votre candidature a été envoyée avec succès ! Nous vous recontacterons rapidement.');
+        form.reset();
+      } catch (err) {
+        alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer plus tard.');
+        console.error('Erreur:', err);
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    });
   });
 </script>
