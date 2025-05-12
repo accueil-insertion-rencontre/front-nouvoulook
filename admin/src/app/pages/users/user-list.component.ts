@@ -244,7 +244,10 @@ export class UserListComponent implements OnInit {
       roles: [this.addUser.role]
     };
     this.http.post(environment.apiUrl + '/auth/register', userToSend).subscribe({
-      next: () => this.closeAddModal(),
+      next: () => {
+        this.fetchUsers();
+        this.closeAddModal();
+      },
       error: () => { alert('Erreur lors de l\'ajout'); }
     });
   }
