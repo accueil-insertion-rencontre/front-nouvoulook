@@ -11,7 +11,7 @@ const imageBoutiquePath = "/assets/boutique.png";
 </div>
 <div class="container py-5">
   <h2 class="text-danger text-center mb-4" style="font-size:2.5rem; font-weight: 600;">Veuillez remplir le formulaire<br>ci-dessous :</h2>
-  <form>
+  <form id="contact-form">
     <div class="mb-3">
       <label for="nom" class="form-label">Nom</label>
       <input type="text" class="form-control" id="nom" name="nom" required>
@@ -35,6 +35,46 @@ const imageBoutiquePath = "/assets/boutique.png";
     <button type="submit" class="btn btn-primary w-100" style="font-size:1.3rem;">Envoyer</button>
   </form>
 </div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(form));
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      
+      try {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Envoi en cours...';
+        
+        const res = await fetch('http://localhost:3001/contact-form', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...formData,
+            type: 'contact',
+            sujet: 'Nouveau message de contact'
+          })
+        });
+        
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Erreur lors de l\'envoi');
+        
+        alert('Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
+        form.reset();
+      } catch (err) {
+        alert('Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
+        console.error('Erreur:', err);
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    });
+  });
+</script>
 
 <style>
 
