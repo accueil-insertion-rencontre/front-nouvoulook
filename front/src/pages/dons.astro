@@ -22,13 +22,13 @@ const nonCollectesDetails = Array.isArray(nonCollectesData)
 
 const response = await fetch(`${import.meta.env.API_URL}/text-donations`);
 const data = await response.json();
-const defaultSchedule = "Nouvoulook vous accueille du mardi au vendredi matin de 9h à 12h ! Ainsi que le samedi après midi de 14h à 17h.\nFermé les dimanches et les lundis.";
-const defaultAdvertising = "Nous vous remercions chaleureusement pour votre <span class='dons-highlight'>générosité</span>.<br>Chaque don compte et contribue à aider ceux qui en ont <span class='dons-highlight'>besoin</span>.<br>Cependant, nous vous rappelons que nous ne sommes pas une <span class='dons-highlight'>décharge</span>.<br>Merci de ne donner que des vêtements <span class='dons-highlight'>propres</span>, en <span class='dons-highlight'>bon état</span>, et dignes d'être portés.<br> Nous nous réservons la possibilité de refuser ce qui est abîmé, incomplet, tâché, déchiré.<br>Car nous ne pouvons ni laver, ni réparer.";
-
 const textDonation = {
-  messageSchedule: data[0]?.messageSchedule || defaultSchedule,
-  messageAdvertising: data[0]?.messageAdvertising || defaultAdvertising
+  messageSchedule: data[0]?.messageSchedule || '',
+  messageAdvertising: data[0]?.messageAdvertising || '',
+  imageUrl: data[0]?.imageUrl || ''
 };
+
+const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
 ---
 
 <Layout title="Faire un don">
@@ -46,12 +46,14 @@ const textDonation = {
         </div>
       </div>
       <div class="col-md-6 text-center position-relative">
-        <img
-          src="/assets/dons.jpg"
-          alt="Donner des vêtements"
-          class="img-fluid rounded dons-img-real mx-auto mb-2"
-          id="don-img"
-        />
+        {textDonation.imageUrl && (
+          <img
+            src={textDonation.imageUrl.startsWith('/assets') ? `${apiUrl}${textDonation.imageUrl}` : textDonation.imageUrl}
+            alt="Donner des vêtements"
+            class="img-fluid rounded dons-img-real mx-auto mb-2"
+            id="don-img"
+          />
+        )}
       </div>
     </div>
     <HorairesOuverture icone="⏰" texte={textDonation.messageSchedule} />
