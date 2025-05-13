@@ -1,8 +1,6 @@
 <script>
     export let newsList = [];
     let currentIndex = 0;
-    let showModal = false;
-    let selectedNews = null;
     const pageSize = 1;
     $: pagedNews = newsList.slice(currentIndex, currentIndex + pageSize);
     function showPrev() {
@@ -12,14 +10,6 @@
       if (currentIndex + 1 < newsList.length) {
         currentIndex += 1;
       }
-    }
-    function openModal(news) {
-      selectedNews = news;
-      showModal = true;
-    }
-    function closeModal() {
-      showModal = false;
-      selectedNews = null;
     }
     let forceColumn = true;
   </script>
@@ -35,8 +25,8 @@
   {:else}
     <div class="row g-4">
       {#each pagedNews as news (news.id)}
-        <div class="col-12 d-flex justify-content-center">
-          <div class="card news-featured-card flex-row align-items-stretch shadow-lg w-100 {forceColumn ? 'vertical' : ''}" style="max-width:1100px; cursor:pointer;" on:click={() => openModal(news)}>
+        <div class="col-10 mx-auto d-flex justify-content-center">
+          <div class="card news-featured-card flex-row align-items-stretch shadow-lg w-100 {forceColumn ? 'vertical' : ''}" style="max-width:1100px;">
             {#if news.imageUrl}
               <div class="news-featured-img-wrapper big {forceColumn ? 'vertical' : ''}">
                 <img src={news.imageUrl.startsWith('/assets') ? `${import.meta.env.PUBLIC_API_URL || 'http://localhost:3001'}${news.imageUrl}` : news.imageUrl} class="news-featured-img big {forceColumn ? 'vertical' : ''}" alt={news.title} />
@@ -50,21 +40,6 @@
           </div>
         </div>
       {/each}
-    </div>
-  {/if}
-  
-  {#if showModal && selectedNews}
-    <div class="modal-backdrop" on:click={closeModal}></div>
-    <div class="modal-news d-flex">
-      <div class="modal-img-wrapper">
-        <img src={selectedNews.imageUrl.startsWith('/assets') ? `${import.meta.env.PUBLIC_API_URL || 'http://localhost:3001'}${selectedNews.imageUrl}` : selectedNews.imageUrl} alt={selectedNews.title} class="modal-img" />
-      </div>
-      <div class="modal-content-wrapper p-4 d-flex flex-column justify-content-center">
-        <h3 class="modal-title mb-3">{selectedNews.title}</h3>
-        <div class="modal-desc mb-3">{@html selectedNews.textContent}</div>
-        <div class="text-muted" style="font-size:1rem;">{new Date(selectedNews.createdAt).toLocaleDateString('fr-FR')}</div>
-        <button class="btn btn-secondary mt-4 align-self-end" on:click={closeModal}>Fermer</button>
-      </div>
     </div>
   {/if}
   
@@ -140,29 +115,30 @@
     max-height: 90vh;
     overflow: hidden;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: stretch;
     padding: 0;
   }
   .modal-img-wrapper {
-    flex: 1 1 50%;
+    width: 100%;
     background: #f6f6f6;
     display: flex;
     align-items: center;
     justify-content: center;
     min-width: 0;
-    max-width: 50%;
+    max-width: 100%;
     padding: 0;
+    height: 220px;
   }
   .modal-img {
     width: 100%;
-    height: auto;
-    max-height: 350px;
+    height: 100%;
+    max-height: 220px;
     object-fit: cover;
-    border-radius: 1.2rem 0 0 1.2rem;
+    border-radius: 1.2rem 1.2rem 0 0;
   }
   .modal-content-wrapper {
-    flex: 1 1 50%;
+    width: 100%;
     min-width: 0;
     background: #fff;
     padding: 2.5rem 2rem;
@@ -170,7 +146,7 @@
     flex-direction: column;
     justify-content: flex-start;
     overflow-y: auto;
-    max-height: 90vh;
+    max-height: 70vh;
     min-height: 0;
   }
   .modal-title {
