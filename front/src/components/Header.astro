@@ -1,6 +1,7 @@
 ---
 const logoPath = "/assets/logo-nouvoulook.png";
 const logoAirPath = "/assets/by-air.png";
+
 ---
 
 <!-- Composant pour afficher le header (logo, menu, bouton) -->
@@ -27,23 +28,7 @@ const logoAirPath = "/assets/by-air.png";
 </header>
 
 
-<script>
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    const closeMenu = document.querySelector('.close-menu');
 
-    if (menuToggle && mainNav && closeMenu) {
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            mainNav.classList.toggle('active');
-        });
-
-        closeMenu.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            mainNav.classList.remove('active');
-        });
-    }
-</script>
 
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
