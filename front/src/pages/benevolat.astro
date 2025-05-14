@@ -32,7 +32,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
         {textVolunteer.imageUrl && (
           <img
             src={textVolunteer.imageUrl.startsWith('/assets') ? `${apiUrl}${textVolunteer.imageUrl}` : textVolunteer.imageUrl}
-            alt="Donner des vêtements"
+            alt="Devenir bénévole"
             class="img-fluid rounded dons-img-real mx-auto mb-2"
             id="don-img"
           />
