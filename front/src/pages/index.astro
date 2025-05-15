@@ -20,8 +20,26 @@ function showNext() {
 const pagedNews = newsList.slice(currentIndex, currentIndex + pageSize);
 ---
 
-<Layout title="Nouvoulook - Accueil">
+<Layout 
+  title="Nouvoulook - Accueil"
+  description="Nouvoulook : boutique solidaire à Marcq-en-Baroeul, dons, bénévolat, histoire, contact. Découvrez notre projet associatif et nos actualités."
+  ogImage="/assets/boutique.png"
+  canonical="https://nouvoulook.fr/"
+>
   <Header />
+  <script type="application/ld+json" is:inline>{JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'Nouvoulook',
+    'url': 'https://nouvoulook.fr/',
+    'logo': 'https://nouvoulook.fr/assets/logo-nouvoulook.png',
+    'description': 'Boutique solidaire à Marcq-en-Baroeul, dons, bénévolat, histoire, contact.',
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': 'Marcq-en-Baroeul',
+      'addressCountry': 'FR'
+    }
+  })}</script>
   <div class="container-fluid py-5 position-relative" style="max-width: 100vw;">
     <div class="d-flex justify-content-center align-items-center flex-column position-relative" style="min-height: 60vh;">
       <div class="hero-img-wrapper position-relative w-100 d-flex justify-content-center" style="max-width: 1200px;">
