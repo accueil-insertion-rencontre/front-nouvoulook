@@ -26,7 +26,7 @@
     <div class="row g-4">
       {#each pagedNews as news (news.id)}
         <div class="col-10 mx-auto d-flex justify-content-center">
-          <div class="card news-featured-card flex-row align-items-stretch shadow-lg w-100 {forceColumn ? 'vertical' : ''}" style="max-width:1100px;">
+          <article class="card news-featured-card flex-row align-items-stretch shadow-lg w-100 {forceColumn ? 'vertical' : ''}" style="max-width:1100px;">
             {#if news.imageUrl}
               <div class="news-featured-img-wrapper big {forceColumn ? 'vertical' : ''}">
                 <img src={news.imageUrl.startsWith('/assets') ? `${import.meta.env.PUBLIC_API_URL || 'http://localhost:3001'}${news.imageUrl}` : news.imageUrl} class="news-featured-img big {forceColumn ? 'vertical' : ''}" alt={news.title} />
@@ -34,10 +34,10 @@
             {/if}
             <div class="card-body d-flex flex-column justify-content-center p-5 news-featured-content">
               <h5 class="card-title mb-2" style="font-size:1.7rem; font-weight:700; color:#3a2d4d;">{news.title}</h5>
-              <div class="card-text mb-3" style="font-size:0.95rem; line-height:1.6; color:#222;">{@html news.textContent}</div>
+              <p class="card-text mb-3" style="font-size:0.95rem; line-height:1.6; color:#222;">{@html news.textContent}</p>
               <div class="mt-auto text-muted" style="font-size:1.1rem;">{new Date(news.createdAt).toLocaleDateString('fr-FR')}</div>
             </div>
-          </div>
+          </article>
         </div>
       {/each}
     </div>
