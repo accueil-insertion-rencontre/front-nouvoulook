@@ -142,7 +142,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
                 <textarea class="form-control" id="motivation" name="motivation" rows="3" required></textarea>
               </div>
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg animate__animated animate__pulse animate__infinite" style="background:#e23e57; border-color:#e23e57;">Envoyer ma candidature</button>
+                <button type="submit" class="btn btn-primary btn-lg animate__animated animate__fadeInUp" style="background:#e23e57; border-color:#e23e57;">Envoyer ma candidature</button>
               </div>
             </form>
           </div>
@@ -188,7 +188,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
         submitButton.disabled = true;
         submitButton.textContent = 'Envoi en cours...';
         
-        const res = await fetch('http://localhost:3001/contact-form', {
+        const res = await fetch(`${apiUrl}/contact-form`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -198,14 +198,20 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
           })
         });
         
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Erreur lors de l\'envoi');
-        
-        alert('Votre candidature a été envoyée avec succès ! Nous vous recontacterons rapidement.');
-        form.reset();
-      } catch (err) {
-        alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer plus tard.');
-        console.error('Erreur:', err);
+        if (res.ok) {
+          const data = await res.json();
+          form.reset();
+          successMessage = "Merci pour votre message ! Nous vous répondrons dès que possible.";
+          errorMessage = "";
+        } else {
+          const errorData = await res.json();
+          errorMessage = errorData.message || "Une erreur s'est produite lors de l'envoi du formulaire. Veuillez réessayer.";
+          successMessage = "";
+        }
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi du formulaire:', error);
+        errorMessage = "Une erreur s'est produite. Vérifiez votre connexion ou réessayez plus tard.";
+        successMessage = "";
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = originalText;
@@ -213,3 +219,13 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
     });
   });
 </script>
+
+<style>
+.btn.btn-primary.btn-lg {
+  transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s;
+}
+.btn.btn-primary.btn-lg:hover, .btn.btn-primary.btn-lg:focus {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 24px 0 #e23e5740, 0 2px 8px #0001;
+}
+</style>

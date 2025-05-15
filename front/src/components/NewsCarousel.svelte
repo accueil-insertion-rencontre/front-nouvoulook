@@ -94,71 +94,6 @@
   .news-featured-content {
     flex: 1 1 60%;
   }
-  .modal-backdrop {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 2000;
-  }
-  .modal-news {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    border-radius: 1.2rem;
-    box-shadow: 0 8px 32px 0 #0003, 0 2px 8px #0001;
-    z-index: 2100;
-    max-width: 900px;
-    width: 96vw;
-    min-height: 320px;
-    max-height: 90vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0;
-  }
-  .modal-img-wrapper {
-    width: 100%;
-    background: #f6f6f6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-    max-width: 100%;
-    padding: 0;
-    height: 220px;
-  }
-  .modal-img {
-    width: 100%;
-    height: 100%;
-    max-height: 220px;
-    object-fit: cover;
-    border-radius: 1.2rem 1.2rem 0 0;
-  }
-  .modal-content-wrapper {
-    width: 100%;
-    min-width: 0;
-    background: #fff;
-    padding: 2.5rem 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto;
-    max-height: 70vh;
-    min-height: 0;
-  }
-  .modal-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #3a2d4d;
-  }
-  .modal-desc {
-    font-size: 1.2rem;
-    color: #222;
-    margin-bottom: 1.5rem;
-  }
   @media (max-width: 900px) {
     .news-featured-card {
       flex-direction: column;
@@ -175,29 +110,6 @@
       border-radius: 1rem 1rem 0 0;
       min-height: 120px;
       max-height: 180px;
-    }
-    .modal-news {
-      flex-direction: column;
-      min-width: 0;
-      max-width: 98vw;
-      min-height: unset;
-      padding: 0;
-    }
-    .modal-img-wrapper, .modal-content-wrapper {
-      flex: unset;
-      width: 100%;
-      min-width: 0;
-      max-width: 100%;
-      padding: 0;
-    }
-    .modal-img {
-      max-width: 100vw;
-      max-height: 220px;
-      border-radius: 1.2rem 1.2rem 0 0;
-    }
-    .modal-content-wrapper {
-      padding: 1.2rem 1rem;
-      max-height: 70vh;
     }
   }
   </style>

@@ -202,7 +202,7 @@ export class DonationsComponent implements OnInit {
   pictosList: any[] = [];
   selectedPictoId: number | null = null;
 
-  apiUrl = 'http://localhost:3001'; // À adapter selon l'environnement
+  apiUrl = environment.apiUrl;
 
   libraryTarget: 'clothingExample' | 'textDonation' = 'clothingExample';
 
