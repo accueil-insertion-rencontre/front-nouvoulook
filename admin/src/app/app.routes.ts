@@ -43,6 +43,10 @@ export const routes: Routes = [
       {
         path: 'contact',
         loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent)
+      },
+      {
+        path: 'history',
+        loadComponent: () => import('./pages/history/history.component').then(m => m.HistoryComponent)
       }
     ]
   },
