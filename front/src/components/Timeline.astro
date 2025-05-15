@@ -253,25 +253,34 @@ const icons = ['bi-star-fill', 'bi-heart-fill', 'bi-people-fill', 'bi-lightbulb-
     .timeline-item-nouveau {
         flex-direction: column !important;
         align-items: flex-start;
-        margin-bottom: 2.2rem;
+        margin-bottom: 2.7rem;
     }
     .timeline-badge-nouveau {
         margin-bottom: 0.7rem;
+        margin-left: 0;
+        align-self: flex-start;
+        position: relative;
+        left: 0;
     }
     .timeline-bubble-nouveau {
-        margin: 0;
+        margin: 0 0 0 48px;
         width: 100%;
         border-radius: 0.8rem;
         padding: 1rem 0.7rem;
+        min-width: 0;
+        max-width: 100vw;
     }
     .timeline-vertical-line-nouveau {
-        left: 18px;
+        left: 32px;
         width: 4px;
         opacity: 0.13;
     }
     .timeline-dot-center {
-        left: 18px;
+        left: 32px;
         transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        border-width: 3px;
     }
 }
 .fade-in-scroll {
