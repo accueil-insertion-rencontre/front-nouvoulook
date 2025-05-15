@@ -1,6 +1,7 @@
 ---
 const imageBoutiquePath = "/assets/boutique.png";
 import '../style/contact.css';
+const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
 ---
   
 <div class="container py-5">
@@ -46,7 +47,7 @@ import '../style/contact.css';
             <textarea class="form-control" id="message" name="message" rows="8" required></textarea>
           </div>
           <div class="d-grid">
-            <button type="submit" class="btn btn-primary btn-lg animate__animated animate__pulse animate__infinite" style="background:#e23e57; border-color:#e23e57;">Envoyer</button>
+            <button type="submit" class="btn btn-primary btn-lg animate__animated animate__fadeInUp" style="background:#e23e57; border-color:#e23e57;">Envoyer</button>
           </div>
         </form>
       </div>
@@ -68,7 +69,7 @@ import '../style/contact.css';
         submitButton.disabled = true;
         submitButton.textContent = 'Envoi en cours...';
         
-        const res = await fetch('http://localhost:3001/contact-form', {
+        const res = await fetch(`${apiUrl}/contact-form`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
