@@ -14,8 +14,26 @@ const textVolunteer = {
 const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
 ---
 
-<Layout title="Nouvoulook - Faire du bénévolat">
+<Layout 
+  title="Nouvoulook - Faire du bénévolat"
+  description="Rejoignez l'association Nouvoulook comme bénévole à Marcq-en-Baroeul. Découvrez comment vous engager et participer à notre projet solidaire."
+  ogImage="/assets/logo-nouvoulook.png"
+  canonical="https://nouvoulook.fr/benevolat"
+>
   <Header />
+  <script type="application/ld+json" is:inline>{JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'Nouvoulook',
+    'url': 'https://nouvoulook.fr/',
+    'logo': 'https://nouvoulook.fr/assets/logo-nouvoulook.png',
+    'description': "Rejoignez l'association Nouvoulook comme bénévole à Marcq-en-Baroeul. Découvrez comment vous engager et participer à notre projet solidaire.",
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': 'Marcq-en-Baroeul',
+      'addressCountry': 'FR'
+    }
+  })}</script>
   <main class="container-fluid py-5 dons-main-with-wave position-relative p-5">
     <div class="dons-bg-wave">
       <svg viewBox="0 0 1440 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -25,7 +43,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
     <div class="row justify-content-center align-items-center gy-4 mb-4 position-relative dons-hero-row">
       <div class="col-md-6 position-relative">
         <div class="dons-yellow-box dons-overlap p-4">
-          <h2 class="mb-0 benevolat-purple-title">Vous souhaitez devenir bénévole ?</h2>
+          <h1 class="mb-0 benevolat-purple-title">Vous souhaitez devenir bénévole ?</h2>
         </div>
       </div>
       <div class="col-md-6 text-center position-relative">
