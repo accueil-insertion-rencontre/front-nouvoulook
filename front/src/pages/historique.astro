@@ -6,14 +6,30 @@ import Layout from '../layouts/Layout.astro';
 import HistoryText from '../components/HistoryText.astro';
 ---
 
-  <Layout title="Nouvoulook - Notre histoire"> 
-    <Header />
-    <History />
-    <HistoryText />
-    <Timeline />
-    
-  </Layout>
-  
+<Layout 
+  title="Nouvoulook - Notre histoire"
+  description="Découvrez l'histoire de l'association Nouvoulook, son engagement solidaire et son évolution à Marcq-en-Baroeul."
+  ogImage="/assets/logo-nouvoulook.png"
+  canonical="https://nouvoulook.fr/historique"
+>
+  <Header />
+  <script type="application/ld+json" is:inline>{JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'Nouvoulook',
+    'url': 'https://nouvoulook.fr/',
+    'logo': 'https://nouvoulook.fr/assets/logo-nouvoulook.png',
+    'description': "Découvrez l'histoire de l'association Nouvoulook, son engagement solidaire et son évolution à Marcq-en-Baroeul.",
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': 'Marcq-en-Baroeul',
+      'addressCountry': 'FR'
+    }
+  })}</script>
+  <History />
+  <Timeline />
+  <HistoryText />
+</Layout>
 
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
