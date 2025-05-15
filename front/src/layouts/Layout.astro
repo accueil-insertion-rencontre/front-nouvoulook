@@ -1,6 +1,6 @@
 ---
 import Footer from '../components/Footer.astro';
-
+import PartnersCarousel from '../components/PartnersCarousel.svelte';
 interface Props {
   title: string;
   description?: string;
@@ -18,7 +18,7 @@ const siteUrl = 'https://nouvoulook.fr'; // À adapter si besoin
     <meta charset="UTF-8" />
     <meta name="description" content={description || 'Association Nouvoulook : boutique solidaire, dons, bénévolat, histoire, contact.'}>
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <link rel="stylesheet" href="/src/style/global.css">
@@ -40,6 +40,7 @@ const siteUrl = 'https://nouvoulook.fr'; // À adapter si besoin
   </head>
   <body>
     <slot />
+    <PartnersCarousel client:load />
     <Footer />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     
