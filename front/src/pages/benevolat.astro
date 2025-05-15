@@ -3,10 +3,37 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import '../style/benevolat.css';
 
+const response = await fetch(`${import.meta.env.API_URL}/text-volunteers`);
+const data = await response.json();
+const textVolunteer = {
+ 
+  textContent: data[0]?.textContent || '',
+  imageUrl: data[0]?.imageUrl || ''
+};
+
+const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
 ---
 
-<Layout title="Faire du bénévolat">
+<Layout 
+  title="Nouvoulook - Faire du bénévolat"
+  description="Rejoignez l'association Nouvoulook comme bénévole à Marcq-en-Baroeul. Découvrez comment vous engager et participer à notre projet solidaire."
+  ogImage="/assets/logo-nouvoulook.png"
+  canonical="https://nouvoulook.fr/benevolat"
+>
   <Header />
+  <script type="application/ld+json" is:inline>{JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'Nouvoulook',
+    'url': 'https://nouvoulook.fr/',
+    'logo': 'https://nouvoulook.fr/assets/logo-nouvoulook.png',
+    'description': "Rejoignez l'association Nouvoulook comme bénévole à Marcq-en-Baroeul. Découvrez comment vous engager et participer à notre projet solidaire.",
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': 'Marcq-en-Baroeul',
+      'addressCountry': 'FR'
+    }
+  })}</script>
   <main class="container-fluid py-5 dons-main-with-wave position-relative p-5">
     <div class="dons-bg-wave">
       <svg viewBox="0 0 1440 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -16,16 +43,18 @@ import '../style/benevolat.css';
     <div class="row justify-content-center align-items-center gy-4 mb-4 position-relative dons-hero-row">
       <div class="col-md-6 position-relative">
         <div class="dons-yellow-box dons-overlap p-4">
-          <h2 class="mb-0 benevolat-purple-title">Vous souhaitez devenir bénévole ?</h2>
+          <h1 class="mb-0 benevolat-purple-title">Vous souhaitez devenir bénévole ?</h2>
         </div>
       </div>
       <div class="col-md-6 text-center position-relative">
-        <img
-          src="/assets/benevolat.jpg"
-          alt="Devenir bénévole"
-          class="img-fluid rounded dons-img-real mx-auto mb-2"
-          id="don-img"
-        />
+        {textVolunteer.imageUrl && (
+          <img
+            src={textVolunteer.imageUrl.startsWith('/assets') ? `${apiUrl}${textVolunteer.imageUrl}` : textVolunteer.imageUrl}
+            alt="Devenir bénévole"
+            class="img-fluid rounded dons-img-real mx-auto mb-2"
+            id="don-img"
+          />
+        )}
       </div>
     </div>
     <!-- Début du contenu après le hero -->
@@ -33,25 +62,7 @@ import '../style/benevolat.css';
       <div class="row align-items-center mb-5">
         <div class="col-lg-6 mb-4 mb-lg-0">
           <h2 class="mb-4 fw-bold" style="font-size:2.2rem; color:#e23e57;">Pourquoi devenir bénévole&nbsp;?</h2>
-          <p class="lead">Rejoindre Nouvoulook en tant que bénévole, c'est s'engager dans une aventure humaine et solidaire, développer de nouvelles compétences et partager des moments forts avec une équipe dynamique.</p>
-          <ul class="list-unstyled mt-4">
-            <li class="mb-3 d-flex align-items-center">
-              <span class="me-3 fs-3" style="color:#fc4811;"><i class="bi bi-people-fill"></i></span>
-              <span>Participer à un projet social et solidaire</span>
-            </li>
-            <li class="mb-3 d-flex align-items-center">
-              <span class="me-3 fs-3" style="color:#e09c2b;"><i class="bi bi-lightbulb-fill"></i></span>
-              <span>Acquérir de nouvelles compétences</span>
-            </li>
-            <li class="mb-3 d-flex align-items-center">
-              <span class="me-3 fs-3" style="color:#e23e57;"><i class="bi bi-chat-dots-fill"></i></span>
-              <span>Rencontrer et échanger avec des personnes inspirantes</span>
-            </li>
-            <li class="mb-3 d-flex align-items-center">
-              <span class="me-3 fs-3" style="color:#d72660;"><i class="bi bi-heart-fill"></i></span>
-              <span>Avoir un impact positif sur la communauté</span>
-            </li>
-          </ul>
+          <div set:html={textVolunteer.textContent} />
         </div>
         <div class="col-lg-6">
           <div class="row g-4">
@@ -68,8 +79,8 @@ import '../style/benevolat.css';
               <div class="card shadow-sm h-100 animate__animated animate__fadeInUp animate__delay-1s">
                 <div class="card-body text-center">
                   <div class="mb-3 fs-1" style="color:#fc4811;"><i class="bi bi-box-seam"></i></div>
-                  <h5 class="card-title mb-2" style="color:#fc4811;">Tri &amp; préparation</h5>
-                  <p class="card-text">Trier les dons, préparer les articles pour la vente et valoriser chaque don reçu.</p>
+                  <h5 class="card-title mb-2" style="color:#fc4811;">Réception des dons</h5>
+                  <p class="card-text">Les bénévoles réceptionnent les vêtements, jouets, meubles et objets de décoration donnés par les particuliers ou les entreprises.</p>
                 </div>
               </div>
             </div>
@@ -86,8 +97,8 @@ import '../style/benevolat.css';
               <div class="card shadow-sm h-100 animate__animated animate__fadeInUp animate__delay-3s">
                 <div class="card-body text-center">
                   <div class="mb-3 fs-1" style="color:#d72660;"><i class="bi bi-stars"></i></div>
-                  <h5 class="card-title mb-2" style="color:#d72660;">Ambassadeur·rice</h5>
-                  <p class="card-text">Porter les valeurs de l'association et sensibiliser le public à notre mission.</p>
+                  <h5 class="card-title mb-2" style="color:#d72660;"> Logistique &amp; gestion des stocks</h5>
+                  <p class="card-text">Trier les dons, préparer les articles pour la vente et valoriser chaque don reçu.</p>
                 </div>
               </div>
             </div>
@@ -101,7 +112,7 @@ import '../style/benevolat.css';
         <div class="col-lg-8">
           <div class="card shadow-lg p-4 animate__animated animate__fadeInUp">
             <h3 class="mb-4 text-center fw-bold" style="color:#e23e57;">Envie de nous rejoindre&nbsp;?</h3>
-            <form>
+            <form id="contact-form">
               <div class="row g-3 mb-3">
                 <div class="col-md-6">
                   <label for="nom" class="form-label">Nom</label>
@@ -164,5 +175,41 @@ import '../style/benevolat.css';
       });
     }, { threshold: 0.2 });
     els.forEach(el => observer.observe(el));
+
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(form));
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      
+      try {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Envoi en cours...';
+        
+        const res = await fetch('http://localhost:3001/contact-form', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...formData,
+            type: 'benevolat',
+            sujet: 'Nouvelle candidature bénévole'
+          })
+        });
+        
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Erreur lors de l\'envoi');
+        
+        alert('Votre candidature a été envoyée avec succès ! Nous vous recontacterons rapidement.');
+        form.reset();
+      } catch (err) {
+        alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer plus tard.');
+        console.error('Erreur:', err);
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    });
   });
 </script>

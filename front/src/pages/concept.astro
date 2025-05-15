@@ -8,8 +8,26 @@ import HumanShop from '../components/HumanShop.astro';
 import Partners from '../components/Partners.astro';
 ---
 
-<Layout title="Nouvoulook - Boutique">
+<Layout 
+  title="Nouvoulook - Concept"
+  description="Découvrez le concept de la boutique solidaire Nouvoulook à Marcq-en-Baroeul : valeurs, partenaires, fonctionnement et engagement social."
+  ogImage="/assets/logo-nouvoulook.png"
+  canonical="https://nouvoulook.fr/concept"
+>
   <Header />
+  <script type="application/ld+json" is:inline>{JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'Nouvoulook',
+    'url': 'https://nouvoulook.fr/',
+    'logo': 'https://nouvoulook.fr/assets/logo-nouvoulook.png',
+    'description': "Découvrez le concept de la boutique solidaire Nouvoulook à Marcq-en-Baroeul : valeurs, partenaires, fonctionnement et engagement social.",
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': 'Marcq-en-Baroeul',
+      'addressCountry': 'FR'
+    }
+  })}</script>
   <HeroBanner />
   <ValuesCard />
     <LocalDiscount />

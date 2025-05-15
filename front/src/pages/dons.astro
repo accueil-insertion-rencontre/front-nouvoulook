@@ -31,8 +31,26 @@ const textDonation = {
 const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
 ---
 
-<Layout title="Faire un don">
+<Layout 
+  title="Nouvoulook - Faire un don"
+  description="Faites un don à l'association Nouvoulook à Marcq-en-Baroeul : vêtements, objets, meubles. Soutenez notre projet solidaire et découvrez comment donner."
+  ogImage="/assets/logo-nouvoulook.png"
+  canonical="https://nouvoulook.fr/dons"
+>
   <Header />
+  <script type="application/ld+json" is:inline>{JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'Nouvoulook',
+    'url': 'https://nouvoulook.fr/',
+    'logo': 'https://nouvoulook.fr/assets/logo-nouvoulook.png',
+    'description': "Faites un don à l'association Nouvoulook à Marcq-en-Baroeul : vêtements, objets, meubles. Soutenez notre projet solidaire et découvrez comment donner.",
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': 'Marcq-en-Baroeul',
+      'addressCountry': 'FR'
+    }
+  })}</script>
   <main class="container-fluid py-5 dons-main-with-wave position-relative p-5">
     <div class="dons-bg-wave">
       <svg viewBox="0 0 1440 220" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -42,7 +60,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
     <div class="row justify-content-center align-items-center gy-4 mb-4 position-relative dons-hero-row">
       <div class="col-md-6 position-relative">
         <div class="dons-yellow-box dons-overlap p-4">
-          <h2 class="mb-0 dons-yellow-title">Vous souhaitez effectuer un don ?</h2>
+          <h1 class="mb-0 dons-yellow-title">Vous souhaitez effectuer un don ?</h2>
         </div>
       </div>
       <div class="col-md-6 text-center position-relative">

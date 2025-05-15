@@ -198,7 +198,9 @@ export class UserListComponent implements OnInit {
     { key: 'news', label: 'Actualités' },
     { key: 'partners', label: 'Partenaires' },
     { key: 'donations', label: 'Page des dons' },
-    { key: 'volunteers', label: 'Page des bénévoles' }
+    { key: 'volunteers', label: 'Page des bénévoles' },
+    { key: 'contact', label: 'Contact' },
+    { key: 'history', label: 'Histoire' },
   ];
 
   constructor(private http: HttpClient, private permissionsService: PermissionsService) {}
@@ -243,7 +245,10 @@ export class UserListComponent implements OnInit {
       roles: [this.addUser.role]
     };
     this.http.post(environment.apiUrl + '/auth/register', userToSend).subscribe({
-      next: () => { this.closeAddModal(); this.fetchUsers(); },
+      next: () => {
+        this.fetchUsers();
+        this.closeAddModal();
+      },
       error: () => { alert('Erreur lors de l\'ajout'); }
     });
   }

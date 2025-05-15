@@ -53,20 +53,35 @@
   width: 80%;
 }
 .footer-site {
-  background: #fff9c4;
-  border-top: 2px solid #e09c2b;
-  color: #333;
+  background: #fffde7;
+ 
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  box-shadow: none;
 }
+
 .footer-logo {
-  text-decoration: none;
+  font-size: 1.3rem !important;
+  color: #e9b949 !important;
   letter-spacing: 1px;
-}
-.footer-links a {
-  color: #4b2991;
+  font-weight: 700;
+  text-shadow: none;
   text-decoration: none;
+}
+
+.footer-links a {
+  color: #444;
   font-weight: 500;
+  text-decoration: none;
   transition: color 0.15s;
 }
+
 .footer-links a:hover {
   color: #e23e57;
+  text-decoration: underline;
+}
+
+.footer-copyright {
+  color: #aaa;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
 }

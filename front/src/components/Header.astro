@@ -1,6 +1,7 @@
 ---
 const logoPath = "/assets/logo-nouvoulook.png";
 const logoAirPath = "/assets/by-air.png";
+
 ---
 
 <!-- Composant pour afficher le header (logo, menu, bouton) -->
@@ -8,6 +9,7 @@ const logoAirPath = "/assets/by-air.png";
 <header class="navbar navbar-expand-md bg-white shadow-sm py-2">
   <div class="container">
     <a class="navbar-brand d-flex flex-column align-items-center justify-content-center" href="/">
+      <img src={logoPath} alt="Logo Nouvoulook, boutique solidaire Marcq-en-Baroeul" style="height: 48px; margin-bottom: 0.2rem; display: block;" class="header-main-logo" id="header-main-logo" />
       <span class="fw-bold" style="font-size:2.2rem; background: linear-gradient(90deg, #ffe066, #f76707, #d72660); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Nouvoulook</span>
       <img src={logoAirPath} alt="by AIR" style="height: 24px; margin-top: 0.1rem; display: block;" class="header-byair-img" id="header-byair-img" />
     </a>
@@ -17,7 +19,7 @@ const logoAirPath = "/assets/by-air.png";
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav ms-auto mb-2 mb-md-0">
         <li class="nav-item"><a class="nav-link" href="/concept">Concept</a></li>
-        <li class="nav-item"><a class="nav-link" href="/historique">Historique</a></li>
+        <li class="nav-item"><a class="nav-link" href="/historique">Histoire</a></li>
         <li class="nav-item"><a class="nav-link" href="/dons">Dons</a></li>
         <li class="nav-item"><a class="nav-link" href="/benevolat">Bénévolat</a></li>
         <li class="nav-item"><a class="nav-link" href="/ou-nous-trouver">Où nous trouver</a></li>
@@ -27,23 +29,7 @@ const logoAirPath = "/assets/by-air.png";
 </header>
 
 
-<script>
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    const closeMenu = document.querySelector('.close-menu');
 
-    if (menuToggle && mainNav && closeMenu) {
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            mainNav.classList.toggle('active');
-        });
-
-        closeMenu.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            mainNav.classList.remove('active');
-        });
-    }
-</script>
 
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {

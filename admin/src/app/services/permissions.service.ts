@@ -12,7 +12,7 @@ export class PermissionsService {
   loadPermissionsForRole(role: string) {
     if (role === 'admin') {
       // Donne tous les droits à l'admin côté front
-      const allResources = ['users', 'news', 'partners', 'donations', 'volunteers'];
+      const allResources = ['users', 'news', 'partners', 'donations', 'volunteers', 'contact', 'history'];
       const allActions = ['create', 'read', 'update', 'delete'];
       const perms = [];
       for (const resource of allResources) {

@@ -11,13 +11,13 @@ import { PictosService } from '../../services/pictos.service';
   imports: [CommonModule, FormsModule],
   template: `
     <div class="container-fluid">
-      <h2>Gestion des horaires d'ouverture</h2>
+      <h2>Gestion de la page dons</h2>
       
       <div class="card mt-4">
         <div class="card-body">
           <form (ngSubmit)="onSubmit()" #donationForm="ngForm">
             <div class="mb-3">
-              <label for="messageSchedule" class="form-label">Horaires d'ouverture</label>
+              <label for="messageSchedule" class="form-label">Horaires d'ouverture pour les dons</label>
               <textarea
                 id="messageSchedule"
                 name="messageSchedule"
