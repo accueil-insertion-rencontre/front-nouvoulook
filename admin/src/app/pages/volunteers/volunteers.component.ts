@@ -15,7 +15,7 @@ import { environment } from '../../../environments/environment';
     <ng-container *ngIf="permissionsLoaded">
       <ng-container *ngIf="hasAccess; else forbidden">
         <div class="container-fluid">
-          <h2>Gestion du contenu bénévoles</h2>
+          <h2>Gestion de la page bénévoles</h2>
           
           <div class="card mt-4">
             <div class="card-body">
