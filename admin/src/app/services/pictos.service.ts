@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class PictosService {
-  apiUrl = 'http://localhost:3001/pictos'; // adapte si besoin
+  private apiUrl = `${environment.apiUrl}/pictos`;
 
   constructor(private http: HttpClient) {}
 
