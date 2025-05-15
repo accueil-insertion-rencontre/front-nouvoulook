@@ -7,7 +7,10 @@ const history = {
   imageUrl: data[0]?.imageUrl || '',
   textContent: data[0]?.textContent || '',
   textContent2: data[0]?.textContent2 || '',
-  textContent3: data[0]?.textContent3 || ''
+  textContent3: data[0]?.textContent3 || '',
+  image1: data[0]?.image1 || '',
+  image2: data[0]?.image2 || '',
+  image3: data[0]?.image3 || ''
 };
 
 const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
@@ -32,13 +35,13 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
         </div>
       </div>
       <div class="col-lg-2 d-none d-lg-flex justify-content-start">
-        <img src="/assets/boutique.png" alt="Illustration 1" class="history-timeline-img" />
+        <img src={history.image1?.startsWith('/assets') ? `${apiUrl}${history.image1}` : history.image1} alt="Illustration 1" class="history-timeline-img" />
       </div>
     </div>
     <!-- Bloc 2 : droite, orange (image à gauche) -->
     <div class="row history-timeline-row mb-5 fade-in-scroll align-items-center justify-content-end">
       <div class="col-lg-2 d-none d-lg-flex justify-content-end">
-        <img src="/assets/boutique.png" alt="Illustration 2" class="history-timeline-img" />
+        <img src={history.image2?.startsWith('/assets') ? `${apiUrl}${history.image2}` : history.image2} alt="Illustration 2" class="history-timeline-img" />
       </div>
       <div class="col-lg-7 col-md-9 animate__animated animate__fadeInRight position-relative">
         <div class="history-timeline-dot history-timeline-dot-orange d-none d-lg-block">
@@ -66,7 +69,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
         </div>
       </div>
       <div class="col-lg-2 d-none d-lg-flex justify-content-start">
-        <img src="/assets/boutique.png" alt="Illustration 3" class="history-timeline-img" />
+        <img src={history.image3?.startsWith('/assets') ? `${apiUrl}${history.image3}` : history.image3} alt="Illustration 3" class="history-timeline-img" />
       </div>
     </div>
   </div>
