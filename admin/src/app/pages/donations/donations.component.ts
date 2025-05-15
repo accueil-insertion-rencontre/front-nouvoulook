@@ -11,7 +11,7 @@ import { PictosService } from '../../services/pictos.service';
   imports: [CommonModule, FormsModule],
   template: `
     <div class="container-fluid">
-      <h2>Gestion des horaires d'ouverture</h2>
+      <h2>Gestion de la page dons</h2>
       
       <div class="card mt-4">
         <div class="card-body">
