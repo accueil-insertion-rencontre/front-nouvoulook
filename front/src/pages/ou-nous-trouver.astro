@@ -11,8 +11,26 @@ const encodedAddress = encodeURIComponent(contact.address || '');
 const mapUrl = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
 ---
 
-<Layout title="Nouvoulook - Où nous trouver ?">
+<Layout 
+  title="Nouvoulook - Où nous trouver ?"
+  description="Où trouver la boutique solidaire Nouvoulook à Marcq-en-Baroeul ? Adresse, horaires, plan d'accès et contact."
+  ogImage="/assets/logo-nouvoulook.png"
+  canonical="https://nouvoulook.fr/ou-nous-trouver"
+>
   <Header />
+  <script type="application/ld+json" is:inline>{JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'Nouvoulook',
+    'url': 'https://nouvoulook.fr/',
+    'logo': 'https://nouvoulook.fr/assets/logo-nouvoulook.png',
+    'description': "Où trouver la boutique solidaire Nouvoulook à Marcq-en-Baroeul ? Adresse, horaires, plan d'accès et contact.",
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': 'Marcq-en-Baroeul',
+      'addressCountry': 'FR'
+    }
+  })}</script>
   <main class="container py-5">
     <div class="row align-items-center justify-content-center g-5">
       <div class="col-lg-5 mb-4 mb-lg-0">
