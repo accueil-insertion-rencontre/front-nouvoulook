@@ -200,6 +200,7 @@ export class UserListComponent implements OnInit {
     { key: 'donations', label: 'Page des dons' },
     { key: 'volunteers', label: 'Page des bénévoles' },
     { key: 'contact', label: 'Contact' },
+    { key: 'history', label: 'Histoire' },
   ];
 
   constructor(private http: HttpClient, private permissionsService: PermissionsService) {}
