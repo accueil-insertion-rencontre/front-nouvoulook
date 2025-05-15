@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import PageViewTracker from '../components/PageViewTracker.svelte';
 import NewsCarousel from '../components/NewsCarousel.svelte';
+import PartnersCarousel from '../components/PartnersCarousel.svelte';
+
 
 const newsResponse = await fetch(`${import.meta.env.API_URL}/news`);
 const newsList: { id: string; title: string; textContent: string; imageUrl: string; createdAt: string; }[] = await newsResponse.json();
@@ -56,7 +58,7 @@ const pagedNews = newsList.slice(currentIndex, currentIndex + pageSize);
   <section class="container my-5 pt-5 mt-5">
     <NewsCarousel client:load newsList={newsList} />
   </section>
-
+ 
   <PageViewTracker client:load />
 </Layout>
 
