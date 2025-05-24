@@ -7,15 +7,8 @@ export interface Props {
 
 const { titre = "Nos horaires d'ouverture", icone = "⏰", texte } = Astro.props;
 
-let textePrincipal = '';
-let texteItalique = '';
-if (texte) {
-  [textePrincipal, texteItalique] = texte.split('\n').map((s: string) => s.trim());
-} else {
-  // fallback si jamais
-  textePrincipal = '';
-  texteItalique = '';
-}
+// Convertir les retours à la ligne en <br>
+const texteAvecBr = texte ? texte.replace(/\n/g, '<br>') : '';
 ---
 
 <div class="mb-4 fade-in">
@@ -23,9 +16,12 @@ if (texte) {
     <span class="dons-icone" aria-hidden="true">{icone}</span>
     {titre}
   </h3>
-  <p class="mb-2">
-    {textePrincipal}
-    <br />
-    <span class="fst-italic">{texteItalique}</span>
-  </p>
-</div> 
+  <p class="dons-text-content" set:html={texteAvecBr}></p>
+</div>
+
+<style>
+  .dons-text-content {
+    white-space: pre-line;
+    line-height: 1.6;
+  }
+</style> 
