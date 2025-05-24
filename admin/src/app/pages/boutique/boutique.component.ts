@@ -55,6 +55,17 @@ import { Subscription } from 'rxjs';
                 </div>
 
                 <hr class="my-4">
+                <div class="mb-3">
+                  <label for="flyerPdf" class="form-label">Fiche d'adhésion PDF (téléchargeable sur la page concept)</label>
+                  <div class="input-group">
+                    <input type="file" id="flyerPdf" name="flyerPdf" class="form-control" accept="application/pdf" (change)="onFlyerPdfSelected($event)" [disabled]="!!boutique.flyerPdfUrl" />
+                    <button *ngIf="boutique.flyerPdfUrl" type="button" class="btn btn-outline-danger" (click)="removeFlyerPdf()">Supprimer le PDF</button>
+                  </div>
+                  <div *ngIf="boutique.flyerPdfUrl" class="mt-2">
+                    <a [href]="apiUrl + boutique.flyerPdfUrl" target="_blank" class="btn btn-link">Télécharger la fiche actuelle</a>
+                  </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary" [disabled]="loading || !boutiqueForm.form.valid">{{ loading ? 'Enregistrement...' : 'Enregistrer les modifications' }}</button>
               </form>
               <div *ngIf="successMsg" class="alert alert-success mt-3">{{ successMsg }}</div>
@@ -147,6 +158,7 @@ export class BoutiqueComponent implements OnInit, OnDestroy {
   pictosList: any[] = [];
   apiUrl = environment.apiUrl;
   currentImageField: string = '';
+  selectedFlyerPdfFile: File | null = null;
 
   constructor(
     private permissions: PermissionsService,
@@ -193,15 +205,22 @@ export class BoutiqueComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.loading = true;
     this.successMsg = '';
     this.errorMsg = '';
-
+    try {
+      // Si un nouveau PDF a été sélectionné, on l'upload d'abord
+      if (this.selectedFlyerPdfFile) {
+        const formData = new FormData();
+        formData.append('file', this.selectedFlyerPdfFile);
+        const res: any = await this.http.post(`${this.apiUrl}/boutique/upload-flyer`, formData).toPromise();
+        this.boutique.flyerPdfUrl = res.url || res.path || res.fileUrl;
+        this.selectedFlyerPdfFile = null;
+      }
     const request = this.boutique.id
       ? this.http.patch(`${this.apiUrl}/boutique/${this.boutique.id}`, this.boutique)
       : this.http.post(`${this.apiUrl}/boutique`, this.boutique);
-
     request.subscribe({
       next: (response: any) => {
         this.boutique = { ...this.boutique, ...response };
@@ -213,6 +232,10 @@ export class BoutiqueComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
+    } catch (error) {
+      this.loading = false;
+      this.errorMsg = 'Erreur lors de l\'upload du PDF';
+    }
   }
 
   openLibrary(field: string) {
@@ -265,5 +288,38 @@ export class BoutiqueComponent implements OnInit, OnDestroy {
 
   onImageFieldChange(field: string, value: string) {
     (this.boutique as any)[field] = value;
+  }
+
+  onFlyerPdfSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type === 'application/pdf') {
+      this.selectedFlyerPdfFile = file;
+    } else {
+      alert('Veuillez sélectionner un fichier PDF.');
+      this.selectedFlyerPdfFile = null;
+    }
+  }
+
+  removeFlyerPdf() {
+    if (confirm('Supprimer la fiche PDF ?')) {
+      if (this.boutique.flyerPdfUrl) {
+        this.http.delete(`${this.apiUrl}/boutique/delete-flyer`, { body: { url: this.boutique.flyerPdfUrl } }).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.boutique.flyerPdfUrl = '';
+              this.selectedFlyerPdfFile = null;
+            } else {
+              alert(res.error || 'Erreur lors de la suppression du fichier sur le serveur.');
+            }
+          },
+          error: () => {
+            alert('Erreur lors de la suppression du fichier sur le serveur.');
+          }
+        });
+      } else {
+        this.boutique.flyerPdfUrl = '';
+        this.selectedFlyerPdfFile = null;
+      }
+    }
   }
 } 
