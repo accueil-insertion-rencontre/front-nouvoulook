@@ -18,14 +18,14 @@ import { Router } from '@angular/router';
         <div class="card-body">
           <form (ngSubmit)="onSubmit()" #contactForm="ngForm" autocomplete="off">
             <div class="mb-3">
-              <label for="smtpUser" class="form-label">Mail (identifiant outlook)</label>
+              <label for="smtpUser" class="form-label">Mail (identifiant gmail)</label>
               <input type="text" id="smtpUser" name="smtp_login" class="form-control" [(ngModel)]="contactInfo.smtpUser" required autocomplete="off" readonly (focus)="removeReadonly($event)" />
             </div>
             <div class="mb-3">
               <label for="smtpPass" class="form-label">
                 <a href="https://support.microsoft.com/fr-fr/account-billing/comment-obtenir-et-utiliser-des-mots-de-passe-d-application-5896ed9b-4263-e681-128a-a6f2979a7944" target="_blank" class="text-primary text-decoration-underline" style="cursor:pointer;">
                   Mot de passe d'application
-                </a> outlook
+                </a> gmail
               </label>
               <input type="password" id="smtpPass" name="smtpPass" class="form-control" [(ngModel)]="contactInfo.smtpPass" required autocomplete="new-password" />
             </div>

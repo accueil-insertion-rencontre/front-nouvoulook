@@ -22,9 +22,10 @@ import { PictosService } from '../../services/pictos.service';
                 id="messageSchedule"
                 name="messageSchedule"
                 class="form-control"
-                rows="3"
+                rows="5"
                 [(ngModel)]="textDonation.messageSchedule"
                 required
+                style="white-space: pre-wrap;"
               ></textarea>
               <div class="form-text">Exemple : Nouvoulook vous accueille du mardi au vendredi matin de 9h à 12h ! Ainsi que le samedi après midi de 14h à 18h.</div>
             </div>
@@ -38,6 +39,7 @@ import { PictosService } from '../../services/pictos.service';
                 rows="5"
                 [(ngModel)]="textDonation.messageAdvertising"
                 required
+                style="white-space: pre-wrap;"
               ></textarea>
               <div class="form-text">Ce message sera affiché sur la page des dons.</div>
             </div>
@@ -50,6 +52,17 @@ import { PictosService } from '../../services/pictos.service';
               </div>
               <div *ngIf="textDonation.imageUrl" class="mt-2">
                 <img [src]="apiUrl + textDonation.imageUrl" alt="Aperçu" style="max-width: 100px; max-height: 100px;" />
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="flyerPdf" class="form-label">Flyer PDF (téléchargeable sur la page dons)</label>
+              <div class="input-group">
+                <input type="file" id="flyerPdf" name="flyerPdf" class="form-control" accept="application/pdf" (change)="onFlyerPdfSelected($event)" [disabled]="!!textDonation.flyerPdfUrl" />
+                <button *ngIf="textDonation.flyerPdfUrl" type="button" class="btn btn-outline-danger" (click)="removeFlyerPdf()">Supprimer le PDF</button>
+              </div>
+              <div *ngIf="textDonation.flyerPdfUrl" class="mt-2">
+                <a [href]="apiUrl + textDonation.flyerPdfUrl" target="_blank" class="btn btn-link">Télécharger le flyer actuel</a>
               </div>
             </div>
 
@@ -180,14 +193,16 @@ import { PictosService } from '../../services/pictos.service';
     `.modal { background: rgba(0,0,0,0.2); position: fixed; top:0; left:0; width:100vw; height:100vh; z-index:1000; }`,
     `.modal-dialog { margin-top: 10vh; }`,
     `.pictos-gallery img.clickable:hover { border: 2px solid #ffa14e; box-shadow: 0 0 8px #ffa14e; }`,
-    `.pictos-gallery img.selected { border: 2px solid #28a745; box-shadow: 0 0 8px #28a745; }`
+    `.pictos-gallery img.selected { border: 2px solid #28a745; box-shadow: 0 0 8px #28a745; }`,
+    `textarea { white-space: pre-wrap; }`
   ]
 })
 export class DonationsComponent implements OnInit {
   textDonation: any = {
     messageSchedule: '',
     messageAdvertising: '',
-    imageUrl: ''
+    imageUrl: '',
+    flyerPdfUrl: ''
   };
   loading = false;
 
@@ -205,6 +220,9 @@ export class DonationsComponent implements OnInit {
   apiUrl = environment.apiUrl;
 
   libraryTarget: 'clothingExample' | 'textDonation' = 'clothingExample';
+
+  // Ajout d'une variable temporaire pour le fichier PDF sélectionné
+  selectedFlyerPdfFile: File | null = null;
 
   constructor(private http: HttpClient, private pictosService: PictosService) {}
 
@@ -229,19 +247,26 @@ export class DonationsComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.loading = true;
+    try {
+      // Si un nouveau PDF a été sélectionné, on l'upload d'abord
+      if (this.selectedFlyerPdfFile) {
+        const formData = new FormData();
+        formData.append('file', this.selectedFlyerPdfFile);
+        const res: any = await this.http.post(`${this.apiUrl}/text-donations/upload-flyer`, formData).toPromise();
+        this.textDonation.flyerPdfUrl = res.url || res.path || res.fileUrl;
+        this.selectedFlyerPdfFile = null;
+      }
     const url = this.textDonation.id 
-      ? `${environment.apiUrl}/text-donations/${this.textDonation.id}`
-      : `${environment.apiUrl}/text-donations`;
-
+        ? `${this.apiUrl}/text-donations/${this.textDonation.id}`
+        : `${this.apiUrl}/text-donations`;
     const method = this.textDonation.id ? 'patch' : 'post';
-
     this.http[method](url, this.textDonation).subscribe({
       next: (response) => {
         this.textDonation = response;
         this.loading = false;
-        alert('Les modifications ont été mis à jour avec succès !');
+          alert('Les modifications ont été mises à jour avec succès !');
       },
       error: (error) => {
         console.error('Erreur lors de la mise à jour des horaires:', error);
@@ -249,6 +274,10 @@ export class DonationsComponent implements OnInit {
         alert('Erreur lors de la mise à jour des horaires');
       }
     });
+    } catch (error) {
+      this.loading = false;
+      alert('Erreur lors de l\'upload du PDF');
+    }
   }
 
   // Gestion clothing-examples
@@ -346,5 +375,38 @@ export class DonationsComponent implements OnInit {
     this.libraryTarget = 'textDonation';
     this.showLibrary = true;
     this.loadPictos();
+  }
+
+  onFlyerPdfSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type === 'application/pdf') {
+      this.selectedFlyerPdfFile = file;
+    } else {
+      alert('Veuillez sélectionner un fichier PDF.');
+      this.selectedFlyerPdfFile = null;
+    }
+  }
+
+  removeFlyerPdf() {
+    if (confirm('Supprimer le flyer PDF ?')) {
+      if (this.textDonation.flyerPdfUrl) {
+        this.http.delete(`${this.apiUrl}/text-donations/delete-flyer`, { body: { url: this.textDonation.flyerPdfUrl } }).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.textDonation.flyerPdfUrl = '';
+              this.selectedFlyerPdfFile = null;
+            } else {
+              alert(res.error || 'Erreur lors de la suppression du fichier sur le serveur.');
+            }
+          },
+          error: () => {
+            alert('Erreur lors de la suppression du fichier sur le serveur.');
+          }
+        });
+      } else {
+        this.textDonation.flyerPdfUrl = '';
+        this.selectedFlyerPdfFile = null;
+      }
+    }
   }
 } 

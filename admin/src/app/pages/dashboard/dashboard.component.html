@@ -22,7 +22,7 @@
         <li class="nav-item" *ngIf="hasAccess('history')"><a routerLink="history" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">history_edu</span> Histoire</a></li>
         <li class="nav-item" *ngIf="hasAccess('boutique')"><a routerLink="boutique" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">storefront</span> Boutique</a></li>
       </ul>
-      <button class="btn btn-outline-secondary w-100 mb-2"><span class="material-icons">settings</span> Paramètres</button>
+      <button class="btn btn-outline-secondary w-100 mb-2" routerLink="settings" routerLinkActive="active" (click)="sidebarOpen = false"><span class="material-icons">settings</span> Paramètres</button>
     </nav>
 
     <div *ngIf="!permissionsLoaded" class="col-md-2 d-none d-md-block py-4 text-center align-items-center justify-content-center">
@@ -50,7 +50,7 @@
           <li class="nav-item" *ngIf="hasAccess('history')"><a routerLink="history" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">history_edu</span> Histoire</a></li>
           <li class="nav-item" *ngIf="hasAccess('boutique')"><a routerLink="boutique" routerLinkActive="active" class="nav-link" (click)="sidebarOpen = false"><span class="material-icons">storefront</span> Boutique</a></li>
         </ul>
-        <button class="btn btn-outline-secondary w-100 mb-2"><span class="material-icons">settings</span> Paramètres</button>
+        <button class="btn btn-outline-secondary w-100 mb-2" routerLink="settings" routerLinkActive="active" (click)="sidebarOpen = false"><span class="material-icons">settings</span> Paramètres</button>
         <button class="btn btn-primary logout-btn w-100 mt-3" (click)="logout()">Déconnexion</button>
       </div>
       <div class="sidebar-backdrop" (click)="sidebarOpen = false"></div>

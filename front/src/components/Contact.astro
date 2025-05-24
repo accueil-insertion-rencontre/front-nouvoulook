@@ -55,7 +55,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
   </div>
 </div>
 
-<script is:inline>
+<script define:vars={{ apiUrl }}>
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('contact-form');
     if (!form) return;

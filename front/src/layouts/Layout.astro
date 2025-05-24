@@ -70,4 +70,16 @@ const siteUrl = 'https://nouvoulook.fr'; // À adapter si besoin
     margin: 0;
     padding: 0;
   }
-</style> 
+</style>
+
+
+<script is:inline>
+  if (typeof window !== "undefined") {
+    Object.defineProperty(window, 'dev', {
+      get() {
+        return "Développé par Martial Floquet – https://martial-portfolio.netlify.app/";
+      },
+      configurable: true
+    });
+  }
+</script> 

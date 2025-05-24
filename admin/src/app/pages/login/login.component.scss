@@ -97,3 +97,63 @@ input[type="password"]:focus {
   font-size: 1rem;
   color: #555;
 }
+
+/* Fond semi-transparent derrière la modale */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+/* Conteneur de la modale */
+.modal-reset {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1010;
+}
+
+/* Contenu de la modale */
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  min-width: 320px;
+  max-width: 90vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  text-align: left;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.modal-content .form-group {
+  margin-bottom: 1rem;
+}
+
+.login-btn {
+  margin-right: 1rem;
+}
+
+.btn-cancel {
+  background: none;
+  border: none;
+  color: #ff5e62;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.reset-message {
+  margin-top: 1rem;
+  color: #28a745;
+  font-size: 1rem;
+}
