@@ -97,4 +97,8 @@ export class AuthService {
       return null;
     }
   }
+
+  forgotPassword(email: string) {
+    return this.http.post(`${environment.apiUrl}/auth/forgot-password`, { email });
+  }
 } 
