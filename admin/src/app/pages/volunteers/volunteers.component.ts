@@ -44,6 +44,17 @@ import { environment } from '../../../environments/environment';
                   </div>
                 </div>
 
+                <div class="mb-3">
+                  <label for="flyerPdf" class="form-label">Charte des bénévoles PDF (téléchargeable sur la page bénévolat)</label>
+                  <div class="input-group">
+                    <input type="file" id="flyerPdf" name="flyerPdf" class="form-control" accept="application/pdf" (change)="onFlyerPdfSelected($event)" [disabled]="!!textVolunteer.flyerPdfUrl" />
+                    <button *ngIf="textVolunteer.flyerPdfUrl" type="button" class="btn btn-outline-danger" (click)="removeFlyerPdf()">Supprimer le PDF</button>
+                  </div>
+                  <div *ngIf="textVolunteer.flyerPdfUrl" class="mt-2">
+                    <a [href]="apiUrl + textVolunteer.flyerPdfUrl" target="_blank" class="btn btn-link">Télécharger la charte actuelle</a>
+                  </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary" [disabled]="!volunteerForm.form.valid || loading">
                   {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
                 </button>
@@ -114,13 +125,15 @@ export class VolunteersComponent implements OnDestroy, OnInit {
 
   textVolunteer: any = {
     textContent: '',
-    imageUrl: ''
+    imageUrl: '',
+    flyerPdfUrl: ''
   };
   loading = false;
   showLibrary = false;
   pictosList: any[] = [];
   selectedPictoId: number | null = null;
   apiUrl = environment.apiUrl;
+  selectedFlyerPdfFile: File | null = null;
 
   constructor(
     private permissions: PermissionsService,
@@ -160,25 +173,29 @@ export class VolunteersComponent implements OnDestroy, OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.loading = true;
+    try {
+      // Si un nouveau PDF a été sélectionné, on l'upload d'abord
+      if (this.selectedFlyerPdfFile) {
+        const formData = new FormData();
+        formData.append('file', this.selectedFlyerPdfFile);
+        const res: any = await this.http.post(`${this.apiUrl}/text-volunteers/upload-flyer`, formData).toPromise();
+        this.textVolunteer.flyerPdfUrl = res.url || res.path || res.fileUrl;
+        this.selectedFlyerPdfFile = null;
+      }
     const url = this.textVolunteer.id 
-      ? `${environment.apiUrl}/text-volunteers/${this.textVolunteer.id}`
-      : `${environment.apiUrl}/text-volunteers`;
-
+        ? `${this.apiUrl}/text-volunteers/${this.textVolunteer.id}`
+        : `${this.apiUrl}/text-volunteers`;
     const method = this.textVolunteer.id ? 'patch' : 'post';
-    
     // On ne garde que les champs nécessaires
     const data = {
       textContent: this.textVolunteer.textContent.replace(/(?:\r\n|\r|\n)/g, '<br>'),
-      imageUrl: this.textVolunteer.imageUrl
+        imageUrl: this.textVolunteer.imageUrl,
+        flyerPdfUrl: this.textVolunteer.flyerPdfUrl
     };
-
-    console.log('Sending data:', data); // Debug log
-
     this.http[method](url, data).subscribe({
       next: (response) => {
-        console.log('Response:', response); // Debug log
         this.textVolunteer = response;
         this.loading = false;
         alert('Les modifications ont été mises à jour avec succès !');
@@ -189,6 +206,10 @@ export class VolunteersComponent implements OnDestroy, OnInit {
         alert('Erreur lors de la mise à jour du contenu');
       }
     });
+    } catch (error) {
+      this.loading = false;
+      alert('Erreur lors de l\'upload du PDF');
+    }
   }
 
   openLibrary() {
@@ -220,6 +241,39 @@ export class VolunteersComponent implements OnDestroy, OnInit {
     const file = event.target.files[0];
     if (file) {
       this.pictosService.uploadPicto(file).subscribe(() => this.loadPictos());
+    }
+  }
+
+  onFlyerPdfSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type === 'application/pdf') {
+      this.selectedFlyerPdfFile = file;
+    } else {
+      alert('Veuillez sélectionner un fichier PDF.');
+      this.selectedFlyerPdfFile = null;
+    }
+  }
+
+  removeFlyerPdf() {
+    if (confirm('Supprimer la charte PDF ?')) {
+      if (this.textVolunteer.flyerPdfUrl) {
+        this.http.delete(`${this.apiUrl}/text-volunteers/delete-flyer`, { body: { url: this.textVolunteer.flyerPdfUrl } }).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.textVolunteer.flyerPdfUrl = '';
+              this.selectedFlyerPdfFile = null;
+            } else {
+              alert(res.error || 'Erreur lors de la suppression du fichier sur le serveur.');
+            }
+          },
+          error: () => {
+            alert('Erreur lors de la suppression du fichier sur le serveur.');
+          }
+        });
+      } else {
+        this.textVolunteer.flyerPdfUrl = '';
+        this.selectedFlyerPdfFile = null;
+      }
     }
   }
 
