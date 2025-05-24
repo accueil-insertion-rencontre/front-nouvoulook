@@ -25,6 +25,7 @@ const boutique = {
   image12: data[0]?.image12 || '',
   image13: data[0]?.image13 || '',
   image14: data[0]?.image14 || '',
+  flyerPdfUrl: data[0]?.flyerPdfUrl || ''
 };
 
 
@@ -250,6 +251,38 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
     )}
     <div class="concept-separator"></div>
 
+    <!-- Section téléchargement fiche d'adhésion -->
+    <section class="concept-section concept-section-green">
+      <div class="concept-section-inner">
+        <h3 class="concept-title concept-title-green">
+          <span class="concept-title-ico">📝</span>
+          Devenir client de notre boutique
+        </h3>
+        <p class="mb-4">
+          Pour devenir client de notre boutique solidaire, téléchargez et remplissez notre fiche d'adhésion.
+          C'est simple, rapide et gratuit !
+        </p>
+        <div class="text-center">
+          {boutique.flyerPdfUrl ? (
+            <a
+              href={boutique.flyerPdfUrl.startsWith('/assets') ? `${apiUrl}${boutique.flyerPdfUrl}` : boutique.flyerPdfUrl}
+              class="btn btn-lg animate__animated animate__fadeInUp"
+              style="background:#a4da47; border-color:#a4da47; color:#005009; font-weight:600;"
+              download
+            >
+              <i class="bi bi-download me-2"></i>Télécharger la fiche d'adhésion
+            </a>
+          ) : (
+            <a href="/assets/fiche-adhesion.pdf" class="btn btn-lg animate__animated animate__fadeInUp" 
+               style="background:#a4da47; border-color:#a4da47; color:#005009; font-weight:600;" 
+               download>
+              <i class="bi bi-download me-2"></i>Télécharger la fiche d'adhésion
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+
     <!-- Réduction Marcquoise -->
     <section class="reduc-section">
       <div class="reduc-inner">
@@ -278,6 +311,35 @@ const apiUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
           <div class="valeur-card valeur-durable">
             <div class="valeur-icone"><span>♻️</span></div>
             <div class="valeur-titre">Développement durable</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section téléchargement fiche d'adhésion -->
+    <section class="container py-5 fade-in-scroll">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card shadow-lg p-4 animate__animated animate__fadeInUp">
+            <div class="text-center mb-4">
+              <i class="bi bi-file-earmark-person-fill fs-1 mb-3" style="color:#a4da47;"></i>
+              <h3 class="fw-bold" style="color:#a4da47;">Fiche d'adhésion client</h3>
+              <p class="mb-4">Téléchargez notre fiche d'adhésion pour devenir client de notre boutique solidaire</p>
+              {boutique.flyerPdfUrl ? (
+                <a
+                  href={boutique.flyerPdfUrl.startsWith('/assets') ? `${apiUrl}${boutique.flyerPdfUrl}` : boutique.flyerPdfUrl}
+                  class="btn btn-primary btn-lg animate__animated animate__fadeInUp"
+                  style="background:#a4da47; border-color:#a4da47;"
+                  download
+                >
+                  <i class="bi bi-download me-2"></i>Télécharger la fiche d'adhésion
+                </a>
+              ) : (
+                <a href="/assets/fiche-adhesion.pdf" class="btn btn-primary btn-lg animate__animated animate__fadeInUp" style="background:#a4da47; border-color:#a4da47;" download>
+                  <i class="bi bi-download me-2"></i>Télécharger la fiche d'adhésion
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -663,7 +725,7 @@ body, .concept-bg {
   border-radius: 2rem;
   box-shadow: 0 4px 32px #0001;
   max-width: 1100px;
-  margin: 3.5rem auto 2.5rem auto;
+  margin: 3.5rem auto 1rem auto;
   padding: 2.5rem 2.2rem 2.2rem 2.2rem;
 }
 .valeurs-inner {
