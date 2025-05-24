@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './pages/guards/auth.guard';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,10 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () => import('./pages/affichage/affichage.component').then(m => m.AffichageComponent)
+      },
+      {
+        path: 'settings',
+        loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent)
       },
       {
         path: 'users',
@@ -53,6 +58,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/boutique/boutique.component').then(m => m.BoutiqueComponent)
       }
     ]
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent)
   },
   {
     path: '**',
