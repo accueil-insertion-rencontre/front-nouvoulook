@@ -22,6 +22,11 @@ export class LoginComponent {
   rememberMe = false;
   error = '';
 
+  // Pour la modale de réinitialisation
+  showForgotModal = false;
+  resetEmail = '';
+  resetMessage = '';
+
   constructor(private auth: AuthService, private router: Router) {
     this.resetFields();
   }
@@ -63,6 +68,32 @@ export class LoginComponent {
       error: () => {
         this.error = 'Identifiants incorrects';
         this.password = '';
+      }
+    });
+  }
+
+  openForgotModal(event: Event) {
+    event.preventDefault();
+    this.showForgotModal = true;
+    this.resetEmail = '';
+    this.resetMessage = '';
+  }
+
+  closeForgotModal() {
+    this.showForgotModal = false;
+    this.resetEmail = '';
+    this.resetMessage = '';
+  }
+
+  onForgotSubmit() {
+    if (!this.resetEmail) return;
+    this.resetMessage = '';
+    this.auth.forgotPassword(this.resetEmail).subscribe({
+      next: (res: any) => {
+        this.resetMessage = res?.message || 'Si cet email existe dans notre base, un lien de réinitialisation vous a été envoyé.';
+      },
+      error: () => {
+        this.resetMessage = 'Erreur lors de la demande. Réessayez plus tard.';
       }
     });
   }
