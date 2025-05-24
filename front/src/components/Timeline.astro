@@ -252,35 +252,55 @@ const icons = ['bi-star-fill', 'bi-heart-fill', 'bi-people-fill', 'bi-lightbulb-
     }
     .timeline-item-nouveau {
         flex-direction: column !important;
-        align-items: flex-start;
-        margin-bottom: 2.7rem;
+        align-items: center;
+        margin-bottom: 2.2rem;
+        width: 100%;
     }
     .timeline-badge-nouveau {
-        margin-bottom: 0.7rem;
+        margin-bottom: 0.5rem;
         margin-left: 0;
-        align-self: flex-start;
+        align-self: center;
         position: relative;
         left: 0;
+        width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
+        z-index: 2;
+    }
+    .timeline-dot-center {
+        display: none;
     }
     .timeline-bubble-nouveau {
-        margin: 0 0 0 48px;
+        margin: 0;
         width: 100%;
         border-radius: 0.8rem;
         padding: 1rem 0.7rem;
         min-width: 0;
         max-width: 100vw;
+        border-width: 2.5px !important;
+        border-left-width: 2.5px !important;
+        border-right-width: 2.5px !important;
     }
     .timeline-vertical-line-nouveau {
-        left: 32px;
-        width: 4px;
-        opacity: 0.13;
+        left: 50%;
+        width: 2px;
+        opacity: 0.10;
+        background: linear-gradient(180deg, #E23E57 0%, #FC4811 50%, #E09C2B 100%);
+        z-index: 0;
+        transform: translateX(-50%);
+        height: 100%;
     }
-    .timeline-dot-center {
-        left: 32px;
-        transform: translateY(-50%);
-        width: 18px;
-        height: 18px;
-        border-width: 3px;
+    .timeline-year-nouveau {
+        text-align: center;
+        font-size: 1.1rem;
+    }
+    .timeline-description-nouveau {
+        text-align: center;
+        font-size: 1rem;
+    }
+    .timeline-item-nouveau.left, .timeline-item-nouveau.right {
+        flex-direction: column !important;
+        align-items: center;
     }
 }
 .fade-in-scroll {
